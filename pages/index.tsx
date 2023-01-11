@@ -9,13 +9,22 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [prompt, setPrompt] = useState<string>('')
   const [SQL, setSQL] = useState<string>('')
+  const [data, setData] = useState<any[]>([])
+  
+  
+  
+  const handleSQL = async (SQL: string) => {
 
-  useEffect(() => {
-    if(!SQL || SQL == 'loading...') return
-  }, [SQL])
+    const resp = await fetch('/api/lens', {
+      method: "POST",
+      body: JSON.stringify({ SQL }),
+    })
+    let response = await resp.json()
+    if(resp.status != 200) return console.error('error', response)
+    console.log('SQL resp', response)
+    setData(response?.results)
 
-
-
+  }
 
   const handlePrompt = async () => { 
     if(!prompt) return
@@ -27,8 +36,9 @@ export default function Home() {
     })
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
-    setSQL('')
-    setSQL("SELECT " + response.data.choices[0].text)
+    const SQL = "SELECT " + response.data.choices[0].text
+    setSQL(SQL)
+    await handleSQL(SQL)
   }
 
   return (
@@ -50,6 +60,9 @@ export default function Home() {
           {SQL ? 
             <div className='text-base text-left m-2'>{SQL}</div> 
           : null}
+
+          {data.length ? data.map(thing => JSON.stringify(thing)) : null}
+
         </div>
       </div>
     </>

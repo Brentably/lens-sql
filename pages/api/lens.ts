@@ -10,6 +10,9 @@ var connection = mysql.createConnection({
   database : 'lens',
   port: 4000,
 });
+
+connection.connect();
+
 // type Data = {
 //   name: string
 // }
@@ -19,6 +22,19 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  const query:string = JSON.parse(req.body).SQL;
+  console.log('api/lens called with query: ', query)
 
-  res.status(200).json({ name: 'John Doe' })
+  connection.query(query, function (error, results, fields) {
+    try{
+    if (error) throw error;
+    console.log(results)
+    res.status(200).json({ results })
+    } catch (error) {
+      console.log(error)
+      res.status(500).json(error)
+    }
+  });
+
+  // res.status(200).json({ name: 'John Doe' })
 }
