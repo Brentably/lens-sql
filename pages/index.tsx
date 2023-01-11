@@ -2,25 +2,33 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>('')
-  const [resp, setResp] = useState<string>('')
+  const [SQL, setSQL] = useState<string>('')
+
+  useEffect(() => {
+    if(!SQL || SQL == 'loading...') return
+  }, [SQL])
+
+
+
 
   const handlePrompt = async () => { 
     if(!prompt) return
     console.log('fetching with prompt:', prompt)
-    setResp('loading...')
+    setSQL('loading...')
     const resp = await fetch('/api/genSQL', {
       method: "POST",
       body: JSON.stringify({ prompt }),
     })
+    if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
-    console.log(response.data)
-    setResp("SELECT " + response.data.choices[0].text)
+    setSQL('')
+    setSQL("SELECT " + response.data.choices[0].text)
   }
 
   return (
@@ -39,11 +47,11 @@ export default function Home() {
           </label>
           <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
 
-          {resp ? 
-            <div className='text-base text-left m-2'>{resp}</div> 
+          {SQL ? 
+            <div className='text-base text-left m-2'>{SQL}</div> 
           : null}
         </div>
       </div>
-          </>
+    </>
   )
 }

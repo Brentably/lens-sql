@@ -2,8 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { OpenAIApi, Configuration } from 'openai'
 
-//maybe innefficient? I'm not sure if this base code runs on every server call
-
+console.log('testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest')
 
 
 // type Data = {
@@ -36,7 +35,7 @@ try{
     presence_penalty: 0,
     stop: ["#", ";"],
   });
-
+  if(response.status !== 200) throw new Error(response)
   res.status(200).json({data: response.data})
 } catch (error) {
   console.log(error)
