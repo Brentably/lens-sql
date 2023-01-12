@@ -60,7 +60,7 @@ export default function Home() {
           {SQL ? 
             <div className='text-base text-left m-2'>{SQL}</div> 
           : null}
-
+          <br/><br/><br/>
           {data.length ? data.map(thing => JSON.stringify(thing)) : null}
 
         </div>
