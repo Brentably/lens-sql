@@ -4,13 +4,28 @@ import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import QueryCard from '../components/QueryCard'
+import queries from '../lib/queries.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
+type state = {
+  prompt: string
+  SQL: string
+  data: any[]
+}
+
+const defaultState = {
+  prompt: '',
+  SQL: '',
+  data: []
+}
+
 export default function Home() {
-  const [prompt, setPrompt] = useState<string>('')
-  const [SQL, setSQL] = useState<string>('')
-  const [data, setData] = useState<any[]>([])
+  const store = useState<state>(defaultState)
+  const [{prompt, SQL, data}, setState] = store
+  // const [prompt, setPrompt] = useState<string>('')
+  // const [SQL, setSQL] = useState<string>('')
+  // const [data, setData] = useState<any[]>([])
   
   
   
@@ -23,14 +38,13 @@ export default function Home() {
     let response = await resp.json()
     if(resp.status != 200) return console.error('error', response)
     console.log('SQL resp', response)
-    setData(response?.results)
-
+    setState(prevState => ({...prevState, data: response?.results}))
   }
 
   const handlePrompt = async () => { 
     if(!prompt) return
     console.log('fetching with prompt:', prompt)
-    setSQL('loading...')
+    setState(prevState => ({...prevState, SQL: 'loading...'}))
     const resp = await fetch('/api/genSQL', {
       method: "POST",
       body: JSON.stringify({ prompt }),
@@ -38,7 +52,7 @@ export default function Home() {
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
     const SQL = "SELECT " + response.data.choices[0].text
-    setSQL(SQL)
+    setState(prevState => ({...prevState, SQL: SQL}))
     await handleSQL(SQL)
   }
 
@@ -55,7 +69,7 @@ export default function Home() {
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
           <div>
             <label>
-              <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} className='border-2 border-gray-300 rounded-md p-2 w-96' />
+              <input type="text" value={prompt} onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))} className='border-2 border-gray-300 rounded-md p-2 w-96' />
             </label>
             <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
           </div>
@@ -65,11 +79,8 @@ export default function Home() {
           <br/><br/><br/>
           {data.length ? data.map(thing => JSON.stringify(thing)) : null}
 
-          <QueryCard query='Give me the top posts by stani in the past month' />
-          <QueryCard query='Show me the top posters on lens' />
-          <QueryCard query='Give me the top posts by stani in the past month' />
-          <QueryCard query='Give me the top posts by stani in the past month' />
-          <QueryCard query='Give me the top posts by stani in the past month' />
+          {queries.map((query, index) => <QueryCard key={index} query={query.text} />)}
+
         </div>
       </div>
     </>
