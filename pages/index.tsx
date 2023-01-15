@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
+import QueryCard from '../components/QueryCard'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -52,17 +53,23 @@ export default function Home() {
       <div className='text-center'>
         <div className='max-w-2xl mx-auto'>
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
-          <label>
-            <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} className='border-2 border-gray-300 rounded-md p-2 w-96' />
-          </label>
-          <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
-
+          <div>
+            <label>
+              <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} className='border-2 border-gray-300 rounded-md p-2 w-96' />
+            </label>
+            <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
+          </div>
           {SQL ? 
             <div className='text-base text-left m-2'>{SQL}</div> 
           : null}
           <br/><br/><br/>
           {data.length ? data.map(thing => JSON.stringify(thing)) : null}
 
+          <QueryCard query='Give me the top posts by stani in the past month' />
+          <QueryCard query='Show me the top posters on lens' />
+          <QueryCard query='Give me the top posts by stani in the past month' />
+          <QueryCard query='Give me the top posts by stani in the past month' />
+          <QueryCard query='Give me the top posts by stani in the past month' />
         </div>
       </div>
     </>
