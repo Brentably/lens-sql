@@ -2,17 +2,21 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import QueryCard from '../components/QueryCard'
 import queries from '../lib/queries.json'
+import { insertLineBreaks } from '../lib/helpers'
 
 const inter = Inter({ subsets: ['latin'] })
 
-type state = {
+export type state = {
   prompt: string
   SQL: string
   data: any[]
 }
+
+export type store = [state, Dispatch<SetStateAction<state>>]
+
 
 const defaultState = {
   prompt: '',
@@ -23,10 +27,6 @@ const defaultState = {
 export default function Home() {
   const store = useState<state>(defaultState)
   const [{prompt, SQL, data}, setState] = store
-  // const [prompt, setPrompt] = useState<string>('')
-  // const [SQL, setSQL] = useState<string>('')
-  // const [data, setData] = useState<any[]>([])
-  
   
   
   const handleSQL = async (SQL: string) => {
@@ -51,7 +51,9 @@ export default function Home() {
     })
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
-    const SQL = "SELECT " + response.data.choices[0].text
+    console.log(response)
+    const SQL = insertLineBreaks("SELECT " + response.data.choices[0].text)
+    console.log(SQL)
     setState(prevState => ({...prevState, SQL: SQL}))
     await handleSQL(SQL)
   }
@@ -74,12 +76,12 @@ export default function Home() {
             <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
           </div>
           {SQL ? 
-            <div className='text-base text-left m-2'>{SQL}</div> 
+            <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
           : null}
           <br/><br/><br/>
           {data.length ? data.map(thing => JSON.stringify(thing)) : null}
 
-          {queries.map((query, index) => <QueryCard key={index} query={query.text} />)}
+          {queries.map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
 
         </div>
       </div>
