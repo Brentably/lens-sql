@@ -44,7 +44,7 @@ export default function Home() {
   const handlePrompt = async () => { 
     if(!prompt) return
     console.log('fetching with prompt:', prompt)
-    setState(prevState => ({...prevState, SQL: 'loading...'}))
+    setState(prevState => ({...prevState, data: [], SQL: 'loading...'}))
     const resp = await fetch('/api/genSQL', {
       method: "POST",
       body: JSON.stringify({ prompt }),
