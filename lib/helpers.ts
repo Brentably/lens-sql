@@ -5,8 +5,8 @@ export const insertLineBreaks = (SQL: string) => {
   const match = new Set(['FROM', 'WHERE', 'ORDER', 'GROUP', 'AND', 'LIMIT'])
   const linebreak = '\n'
   const newArr = stringArr.map(thing => {
-    console.log(thing)
-    if(match.has(thing.toUpperCase())) console.log("TRUE")
+    // console.log(thing)
+    // if(match.has(thing.toUpperCase())) console.log("TRUE")
     if(match.has(thing.toUpperCase())) return linebreak.concat(thing)
     return thing
 })

@@ -6,5 +6,23 @@
   {
     "text": "Show me the top posters on lens",
     "validResp": "SELECT handle, COUNT(*) AS post_count\nFROM lens_publication_post_view\nGROUP BY handle\nORDER BY post_count DESC\nLIMIT 10"
+  },
+  {
+    "text": "stani tweets about lending"
+  },
+  {
+    "text": "top 10 people musk engages the most with"
+  },
+  {
+    "text": "most popular lens users"
+  },
+  {
+    "text": "most popular lens users by mirrors"
+  },
+  {
+    "text": "posts about ethereum this week"
+  },
+  {
+    "text": "most liked posts today"
   }
 ]
