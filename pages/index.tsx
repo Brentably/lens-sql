@@ -6,11 +6,14 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import QueryCard from '../components/QueryCard'
 import queries from '../lib/queries.json'
 import { insertLineBreaks } from '../lib/helpers'
+import searchIcon from '../lib/icons/search-interface-symbol.png'
+import close from '../lib/icons/close.png'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export type state = {
   prompt: string
+  searching: boolean
   SQL: string
   data: any[]
 }
@@ -20,13 +23,14 @@ export type store = [state, Dispatch<SetStateAction<state>>]
 
 const defaultState = {
   prompt: '',
+  searching: false,
   SQL: '',
   data: []
 }
 
 export default function Home() {
   const store = useState<state>(defaultState)
-  const [{prompt, SQL, data}, setState] = store
+  const [{prompt, searching, SQL, data}, setState] = store
   
   
   const handleSQL = async (SQL: string) => {
@@ -42,7 +46,8 @@ export default function Home() {
   }
 
   const handlePrompt = async () => { 
-    if(!prompt) return
+    if(!prompt || searching) return
+    setState(ps=>({...ps, searching: true}))
     console.log('fetching with prompt:', prompt)
     setState(prevState => ({...prevState, data: [], SQL: 'loading...'}))
     const resp = await fetch('/api/genSQL', {
@@ -56,6 +61,7 @@ export default function Home() {
     console.log(SQL)
     setState(prevState => ({...prevState, SQL: SQL}))
     await handleSQL(SQL)
+    setState(ps=>({...ps, searching: false}))
   }
 
   return (
@@ -69,19 +75,26 @@ export default function Home() {
       <div className='text-center'>
         <div className='max-w-2xl mx-auto'>
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
-          <div>
-            <label>
-              <input type="text" value={prompt} onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))} className='border-2 border-gray-300 rounded-md p-2 w-96' />
-            </label>
-            <button className='rounded-md bg-purple-500 text-white p-2' onClick={handlePrompt}>Search</button>
+          <div className='border-gray-300 border-2 rounded-3xl flex items-center'>
+          
+          <Image src={searchIcon} alt='' className='h-4 w-4 ml-4'/>
+            
+              <input type="text" placeholder='Search Lens...' value={prompt}
+              className='p-2 grow rounded-r-full border-0 focus:ring-0' 
+              onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
+              onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
+
+          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer' onClick={()=> setState(pS => ({...pS, prompt:''}))}/> : null}
+
+            {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
           </div>
           {SQL ? 
             <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
           : null}
-          <br/><br/><br/>
+          
           {data.length ? data.map(thing => JSON.stringify(thing)) : null}
 
-          {queries.map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
+          {queries.slice(0,6).map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
 
         </div>
       </div>
