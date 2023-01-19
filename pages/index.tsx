@@ -86,7 +86,7 @@ export default function Home() {
 
 
           {/* close query button shows up only if you have typed anything in */}
-          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(pS => ({...pS, prompt:''}))}/> : null}
+          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(defaultState)}/> : null}
 
             {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
           </div>
