@@ -75,18 +75,18 @@ export default function Home() {
       <div className='text-center'>
         <div className='max-w-2xl mx-auto'>
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
-          <div className='border-gray-300 border-2 rounded-3xl flex items-center'>
+          <div className='rounded-3xl flex items-center relative'>
           
-          <Image src={searchIcon} alt='' className='h-4 w-4 ml-4'/>
+          <Image src={searchIcon} alt='' className='h-4 w-4 ml-4 absolute'/>
             
               <input type="text" placeholder='Search Lens...' value={prompt}
-              className='p-2 grow rounded-r-full border-0 focus:ring-0' 
+              className='p-2 px-10 rounded-full border-gray-300 border-2 grow ring-0 focus:ring-0 focus:border-purple-400 transition-colors' 
               onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
               onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
 
 
           {/* close query button shows up only if you have typed anything in */}
-          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer' onClick={()=> setState(pS => ({...pS, prompt:''}))}/> : null}
+          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(pS => ({...pS, prompt:''}))}/> : null}
 
             {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
           </div>
