@@ -84,6 +84,8 @@ export default function Home() {
               onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
               onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
 
+
+          {/* close query button shows up only if you have typed anything in */}
           {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer' onClick={()=> setState(pS => ({...pS, prompt:''}))}/> : null}
 
             {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
