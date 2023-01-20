@@ -8,6 +8,7 @@ import queries from '../lib/queries.json'
 import { insertLineBreaks } from '../lib/helpers'
 import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
+import DisplayResults from '../components/DisplayResults'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -73,7 +74,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className='text-center'>
-        <div className='max-w-2xl mx-auto'>
+        <div className='max-w-2xl mx-auto my-10'>
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
           <div className='rounded-3xl flex items-center relative'>
           
@@ -94,7 +95,9 @@ export default function Home() {
             <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
           : null}
           
-          {data.length ? data.map(thing => JSON.stringify(thing)) : null}
+          {data.length ? 
+            <DisplayResults data={data} /> 
+          : null}
 
           {queries.slice(0,6).map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
 
