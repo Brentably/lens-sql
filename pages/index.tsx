@@ -9,12 +9,14 @@ import { insertLineBreaks } from '../lib/helpers'
 import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
+import { pseudoRandomBytes } from 'crypto'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export type state = {
   prompt: string
   searching: boolean
+  querying: boolean
   SQL: string
   data: any[]
 }
@@ -25,17 +27,18 @@ export type store = [state, Dispatch<SetStateAction<state>>]
 const defaultState = {
   prompt: '',
   searching: false,
+  querying: false,
   SQL: '',
   data: []
 }
 
 export default function Home() {
   const store = useState<state>(defaultState)
-  const [{prompt, searching, SQL, data}, setState] = store
+  const [{prompt, searching, querying, SQL, data}, setState] = store
   
   
   const handleSQL = async (SQL: string) => {
-
+    setState(pS=>({...pS, querying: true, data: []}))
     const resp = await fetch('/api/lens', {
       method: "POST",
       body: JSON.stringify({ SQL }),
@@ -43,14 +46,14 @@ export default function Home() {
     let response = await resp.json()
     if(resp.status != 200) return console.error('error', response)
     console.log('SQL resp', response)
-    setState(prevState => ({...prevState, data: response?.results}))
+    setState(prevState => ({...prevState, querying: false, data: response?.results}))
   }
 
   const handlePrompt = async () => { 
     if(!prompt || searching) return
-    setState(ps=>({...ps, searching: true}))
     console.log('fetching with prompt:', prompt)
-    setState(prevState => ({...prevState, data: [], SQL: 'loading...'}))
+    setState(ps => ({...ps, data: [], SQL: 'loading...', searching: true}))
+
     const resp = await fetch('/api/genSQL', {
       method: "POST",
       body: JSON.stringify({ prompt }),
@@ -58,7 +61,8 @@ export default function Home() {
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
     console.log(response)
-    const SQL = insertLineBreaks("SELECT " + response.data.choices[0].text)
+    //post-API call processing
+    const SQL = insertLineBreaks("SELECT " + response.data)
     console.log(SQL)
     setState(prevState => ({...prevState, SQL: SQL}))
     await handleSQL(SQL)
@@ -97,9 +101,11 @@ export default function Home() {
           
           {data.length ? 
             <DisplayResults data={data} /> 
+          : querying? 
+          <div className='text-base text-left m-2 whitespace-pre-line'>loading query...</div>
           : null}
 
-          {queries.slice(0,6).map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
+          {queries.slice(0,queries.length).map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
 
         </div>
       </div>

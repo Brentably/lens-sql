@@ -13,3 +13,19 @@ export const insertLineBreaks = (SQL: string) => {
 
   return newArr.join(' ')
 }
+
+
+// export const replaceWords = (sqlString: string):string => {
+//   const replacePosts = sqlString.replace("Posts", 'lens_post_view')
+//   const replaceFollows = replacePosts.replace("Follows", 'lens_follow_view')
+//   const replaceUsers = replaceFollows.replace("Users", "lens_profile_view")
+//   return replaceUsers
+// }
+
+
+export const preprocessing = (prompt: string):string => {
+  // remove all @ and all '.lens'
+  
+
+  return prompt
+}

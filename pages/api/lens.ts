@@ -3,11 +3,18 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import mysql from 'mysql';
 
 
+// var connection = mysql.createConnection({
+//   host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
+//   user     : 'readonlylensview',
+//   password : process.env.NEXT_SERVER_LENS_KNN3,
+//   database : 'lens',
+//   port: 4000,
+// });
 var connection = mysql.createConnection({
   host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
-  user     : 'readonlylensview',
-  password : process.env.NEXT_SERVER_LENS_KNN3,
-  database : 'lens',
+  user     : 'lens_bakreadwrite',
+  password : process.env.NEXT_SERVER_LENS_BAK_KNN3,
+  database : 'lens_bak',
   port: 4000,
 });
 

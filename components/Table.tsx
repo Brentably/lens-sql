@@ -8,9 +8,11 @@ const keys = Object.keys(data[0])
       {/* {JSON.stringify(data)} */}
       <table className="mx-auto p-2 rounded-xl">
         <thead>
-          {keys.map((key, i) => 
-            <th key={i} className="border border-slate-400 p-3">{key}</th>
-          )}
+          <tr>
+            {keys.map((key, i) => 
+              <th key={i} className="border border-slate-400 p-3">{key}</th>
+            )}
+          </tr>
         </thead>
         <tbody>
           {data.map((row, i) => 
