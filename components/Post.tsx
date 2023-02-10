@@ -6,9 +6,10 @@ const Post = (props:any) => {
 
   useEffect(() => {
     async function ue() {
-      const resp = await fetch(contentURI)
-      const data = await resp.json()
-      setContent(JSON.stringify(data))
+      // HAS TO HANDLE `IPFS://aljksdfhadslkjhglsjgd` style URIs
+      // const resp = await fetch(contentURI)
+      // const data = await resp.json()
+      // setContent(JSON.stringify(data))
     }
     ue()
   // eslint-disable-next-line react-hooks/exhaustive-deps
