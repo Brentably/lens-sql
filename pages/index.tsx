@@ -21,6 +21,7 @@ export type state = {
   querying: boolean
   SQL: string
   data: any[]
+  thumbs: "up" | "down" | null
 }
 
 export type store = [state, Dispatch<SetStateAction<state>>]
@@ -31,7 +32,8 @@ const defaultState = {
   searching: false,
   querying: false,
   SQL: '',
-  data: []
+  data: [],
+  thumbs: null
 }
 
 export default function Home() {
