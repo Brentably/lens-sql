@@ -9,8 +9,9 @@ import { insertLineBreaks } from '../lib/helpers'
 import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
-import { pseudoRandomBytes } from 'crypto'
 import Thumbs from '../components/Thumbs'
+
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -65,9 +66,8 @@ export default function Home() {
     //post-API call processing
     const SQL = insertLineBreaks("SELECT " + response.data)
     console.log(SQL)
-    setState(prevState => ({...prevState, SQL: SQL}))
+    setState(prevState => ({...prevState, SQL: SQL, searching: false}))
     await handleSQL(SQL)
-    setState(ps=>({...ps, searching: false}))
   }
 
   return (
@@ -99,8 +99,9 @@ export default function Home() {
           {SQL ? 
             <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
           : null}
-          
-          <div className='text-left m-2'><Thumbs /></div>
+          {SQL && !searching ? 
+            <div className='text-left m-2'><Thumbs store={store} /></div>
+          : null}
 
           {data.length ? 
             <DisplayResults data={data} /> 
