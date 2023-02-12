@@ -10,6 +10,7 @@ import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
 import { pseudoRandomBytes } from 'crypto'
+import Thumbs from '../components/Thumbs'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -99,6 +100,8 @@ export default function Home() {
             <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
           : null}
           
+          <div className='text-left m-2'><Thumbs /></div>
+
           {data.length ? 
             <DisplayResults data={data} /> 
           : querying? 
