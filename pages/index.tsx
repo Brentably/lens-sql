@@ -47,6 +47,7 @@ export default function Home() {
       method: "POST",
       body: JSON.stringify({ SQL }),
     })
+    if(querying == false) return; // instead of aborting mid call, checks for a reset
     let response = await resp.json()
     if(resp.status != 200) return console.error('error', response)
     console.log('SQL resp', response)
@@ -84,19 +85,16 @@ export default function Home() {
         <div className='max-w-2xl mx-auto my-10'>
           <h1 className='text-3xl'>Text 2 SQL for Lens</h1>
           <div className='rounded-3xl flex items-center relative'>
-          
-          <Image src={searchIcon} alt='' className='h-4 w-4 ml-4 absolute'/>
-            
-              <input type="text" placeholder='Search Lens...' value={prompt}
-              className='p-2 px-10 rounded-full border-gray-300 border-2 grow ring-0 focus:ring-0 focus:border-purple-400 transition-colors' 
-              onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
-              onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
+            <Image src={searchIcon} alt='' className='h-4 w-4 ml-4 absolute'/>
+                <input type="text" placeholder='Search Lens...' value={prompt}
+                className='p-2 px-10 rounded-full border-gray-300 border-2 grow ring-0 focus:ring-0 focus:border-purple-400 transition-colors' 
+                onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
+                onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
 
+            {/* close query button shows up only if you have typed anything in */}
+            {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(defaultState)}/> : null}
 
-          {/* close query button shows up only if you have typed anything in */}
-          {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(defaultState)}/> : null}
-
-            {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
+              {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
           </div>
           {SQL ? 
             <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
