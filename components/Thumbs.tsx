@@ -3,12 +3,12 @@ import likeActive from '../lib/icons/likeActive.png'
 import dislike from '../lib/icons/dislike.png'
 import dislikeActive from '../lib/icons/dislikeActive.png'
 import Image from 'next/image'
-import {db} from '../lib/firebase'
-import { collection, addDoc } from "firebase/firestore"; 
-import { store } from '../pages';
+import { db } from '../lib/firebase'
+import { collection, addDoc } from "firebase/firestore";
+import { store } from '../pages/query';
 import firebase from 'firebase/compat/app'
 
-const Thumbs = (props:{store:store}) => {
+const Thumbs = (props: { store: store }) => {
   const { store: [state, setState] } = props
   const { prompt, SQL, thumbs } = state
   /* 
@@ -25,10 +25,10 @@ const Thumbs = (props:{store:store}) => {
   
   */
 
-  const addThumb = async (isThumbUp:boolean, thumb=thumbs) => {
+  const addThumb = async (isThumbUp: boolean, thumb = thumbs) => {
     // if thumbs are neutral (no thumb up or down)
-    if(thumb == null) {
-      setState(ps => ({...ps, thumbs: isThumbUp ? "up" : "down"}))
+    if (thumb == null) {
+      setState(ps => ({ ...ps, thumbs: isThumbUp ? "up" : "down" }))
       try {
         const docRef = await addDoc(collection(db, "queries"), {
           date: Date.now(),
@@ -37,27 +37,27 @@ const Thumbs = (props:{store:store}) => {
           thumb: isThumbUp
         });
         console.log("Document written with ID: ", docRef.id);
-        
+
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     }
     // if thumbs are up and you hit up || thumbs are down and you hit down
-    else if((thumb == "up" && isThumbUp) || (thumb == "down" && !isThumbUp)) {
-        setState(ps => ({...ps, thumbs: null}))
+    else if ((thumb == "up" && isThumbUp) || (thumb == "down" && !isThumbUp)) {
+      setState(ps => ({ ...ps, thumbs: null }))
     } // else thumbs are up and you hit down OR thumbs are down and you hit up
     else {
-        setState(ps => ({...ps, thumbs: null}))
-        addThumb(isThumbUp, null)
+      setState(ps => ({ ...ps, thumbs: null }))
+      addThumb(isThumbUp, null)
     }
   }
-    
-    
-    
-    return (<div>
-        <Image src={thumbs == "up" ? likeActive : like} alt='like' className='w-6 cursor-pointer inline-block' onClick={() => addThumb(true)} />
-        <Image src={thumbs == "down" ? dislikeActive : dislike} alt='dislike' className='w-6 cursor-pointer inline-block' onClick={() => addThumb(false)} />
-    </div>)
-  }
-  
-  export default Thumbs
+
+
+
+  return (<div>
+    <Image src={thumbs == "up" ? likeActive : like} alt='like' className='w-6 cursor-pointer inline-block' onClick={() => addThumb(true)} />
+    <Image src={thumbs == "down" ? dislikeActive : dislike} alt='dislike' className='w-6 cursor-pointer inline-block' onClick={() => addThumb(false)} />
+  </div>)
+}
+
+export default Thumbs
