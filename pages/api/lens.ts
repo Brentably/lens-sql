@@ -25,7 +25,7 @@ connection.connect();
 // }
 
 // will call lens with the query that has been passed through and 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
