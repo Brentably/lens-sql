@@ -37,41 +37,6 @@ const defaultState = {
 }
 
 export default function Home() {
-  const store = useState<state>(defaultState)
-  const [{prompt, searching, querying, SQL, data}, setState] = store
-  
-  
-  const handleSQL = async (SQL: string) => {
-    setState(pS=>({...pS, querying: true, data: []}))
-    const resp = await fetch('/api/lens', {
-      method: "POST",
-      body: JSON.stringify({ SQL }),
-    })
-    if(querying == false) return; // instead of aborting mid call, checks for a reset
-    let response = await resp.json()
-    if(resp.status != 200) return console.error('error', response)
-    console.log('SQL resp', response)
-    setState(prevState => ({...prevState, querying: false, data: response?.results}))
-  }
-
-  const handlePrompt = async () => { 
-    if(!prompt || searching) return
-    console.log('fetching with prompt:', prompt)
-    setState(ps => ({...ps, data: [], SQL: 'loading...', searching: true}))
-
-    const resp = await fetch('/api/genSQL', {
-      method: "POST",
-      body: JSON.stringify({ prompt }),
-    })
-    if(resp.status != 200) return console.error('error', resp)
-    let response = await resp.json()
-    console.log(response)
-    //post-API call processing
-    const SQL = insertLineBreaks("SELECT " + response.data)
-    console.log(SQL)
-    setState(prevState => ({...prevState, SQL: SQL, searching: false}))
-    await handleSQL(SQL)
-  }
 
   return (
     <>
@@ -81,37 +46,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='text-center'>
-        <div className='max-w-2xl mx-auto my-10'>
-          <h1 className='text-3xl text-red-500'>EASY QUERY</h1>
-          <div className='rounded-3xl flex items-center relative'>
-            <Image src={searchIcon} alt='' className='h-4 w-4 ml-4 absolute'/>
-                <input type="text" placeholder='Please describe the data you want...' value={prompt}
-                className='p-2 px-10 rounded-full border-gray-300 border-2 grow ring-0 focus:ring-0 focus:border-red-400 transition-colors' 
-                onChange={(e) => setState(pS => ({...pS, prompt: e.target.value}))}
-                onKeyDown={(e)=>{if(e.key=="Enter")handlePrompt()}} />
-
-            {/* close query button shows up only if you have typed anything in */}
-            {prompt ? <Image src={close} alt='' className='h-4 w-4 mr-4 cursor-pointer absolute right-0' onClick={()=> setState(defaultState)}/> : null}
-
-              {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
-          </div>
-          {SQL ? 
-            <div className='text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
-          : null}
-          {SQL && !searching ? 
-            <div className='text-left m-2'><Thumbs store={store} /></div>
-          : null}
-
-          {data.length ? 
-            <DisplayResults data={data} /> 
-          : querying? 
-          <div className='text-base text-left m-2 whitespace-pre-line'>loading query...</div>
-          : null}
-
-          {queries.slice(0,queries.length).map((query, index) => <QueryCard key={index} text={query.text} store={store}/>)}
-
-        </div>
+      <div className='text-center text-white'> whatup
       </div>
     </>
   )
