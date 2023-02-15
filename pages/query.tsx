@@ -10,6 +10,7 @@ import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
 import Thumbs from '../components/Thumbs'
+import Header from '../components/Header'
 
 
 
@@ -81,6 +82,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
       <div className='text-center'>
         <div className='max-w-2xl mx-auto my-10'>
           <h1 className='text-3xl text-red-500'>EASY QUERY</h1>
