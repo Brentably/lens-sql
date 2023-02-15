@@ -10,6 +10,7 @@ import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
 import Thumbs from '../components/Thumbs'
+import Header from '../components/Header'
 
 
 
@@ -36,7 +37,7 @@ const defaultState = {
   thumbs: null
 }
 
-export default function Home() {
+export default function Home(test:any) {
 
   return (
     <>
@@ -46,8 +47,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='text-center text-white'> whatup
-      </div>
+      <Header  />
     </>
   )
 }
