@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useAppState, useConnectWallet } from '@web3-onboard/react'
 
 const Header = () => {
 const router = useRouter()
-console.log(router)
+const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
 
   return (
   <div className="flex row justify-between items-center m-3">
@@ -25,7 +26,10 @@ console.log(router)
         </Link>
       </div>
     </div>
-    <div className="bg-red-600 text-white p-2 rounded-lg">Connect Wallet</div>
+    <button className='bg-red-600 text-white p-2 rounded-lg' disabled={connecting} onClick={()=>(wallet ? disconnect(wallet) : connect())}>
+          {connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect Wallet'}
+        </button>
+    {/* <div className="bg-red-600 text-white p-2 rounded-lg">Connect Wallet</div> */}
   </div>
   )
 }
