@@ -30,7 +30,7 @@ const defaultState = {
   thumbs: null
 }
 
-export default function Home(test:any) {
+export default function Home() {
 
   return (
     <>
