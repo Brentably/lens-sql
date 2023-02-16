@@ -6,7 +6,7 @@ const keys = Object.keys(data[0])
   return (
     <div className="text-center">
       {/* {JSON.stringify(data)} */}
-      <table className="mx-auto p-2 rounded-xl">
+      <table className="mx-auto p-2 rounded-xl bg-white">
         <thead>
           <tr>
             {keys.map((key, i) => 
