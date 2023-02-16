@@ -1,17 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import QueryCard from '../components/QueryCard'
-import queries from '../lib/queries.json'
-import { insertLineBreaks } from '../lib/helpers'
-import searchIcon from '../lib/icons/search-interface-symbol.png'
-import close from '../lib/icons/close.png'
-import DisplayResults from '../components/DisplayResults'
-import Thumbs from '../components/Thumbs'
 import Header from '../components/Header'
-
+import forNow from '../lib/icons/fornow.jpg'
+import Link from 'next/link'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -48,6 +41,12 @@ export default function Home(test:any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header  />
+      <div className='text-center flex items-center flex-col'>
+        <h1 className='text-white text-5xl font-semibold max-w-4xl text-center tracking-wide leading-relaxed'>Easy Access to Lens Database Service Powered by KNN3 and OpenAI</h1>
+
+        <Image alt='' src={forNow} className="relative left-4"/>
+        <Link href='/query' className='bg-red-600 text-white rounded-lg p-4 px-7 text-xl tracking-wider'>Try It Now</Link>
+      </div>
     </>
   )
 }
