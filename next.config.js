@@ -11,7 +11,7 @@ const nextConfig = {
 const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
  
-dotenvLoad('.env.local');
+dotenvLoad('.env');
 
  
 const withNextEnv = nextEnv();
