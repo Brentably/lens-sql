@@ -48,7 +48,7 @@ export default function Home() {
       method: "POST",
       body: JSON.stringify({ SQL }),
     })
-    if(querying == false) return; // instead of aborting mid call, checks for a reset
+    // if(querying == false) return; // instead of aborting mid call, checks for a reset
     let response = await resp.json()
     if(resp.status != 200) return console.error('error', response)
     console.log('SQL resp', response)
@@ -69,7 +69,6 @@ export default function Home() {
     console.log(response)
     //post-API call processing
     const SQL = insertLineBreaks("SELECT " + response.data)
-    console.log(SQL)
     setState(prevState => ({...prevState, SQL: SQL, searching: false}))
     await handleSQL(SQL)
   }
