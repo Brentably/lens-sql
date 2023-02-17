@@ -97,9 +97,13 @@ export default function Home() {
 
               {/* <button className='rounded-md bg-blue-500 text-white p-2' onClick={handlePrompt}>Search</button> */}
           </div>
-          {SQL ? 
-            <div className='bg-white text-base text-left m-2 whitespace-pre-line'>{SQL}</div> 
-          : null}
+          {SQL ? <>
+            <div className='bg-white text-base text-left m-2 whitespace-pre-line flex flex-row justify-between' >
+              
+              <div contentEditable="true">{SQL}</div>
+              <button className='bg-red-400 p-2 self-start rounded-bl-lg'>Save</button>
+            </div>
+           </> : null}
           {SQL && !searching ? 
             <div className='bg-white text-left m-2'><Thumbs store={store} /></div>
           : null}
