@@ -29,6 +29,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  console.log(req.body)
   const query:string = JSON.parse(req.body).SQL;
   console.log('api/lens called with query: ', query)
 
@@ -40,9 +41,11 @@ export default async function handler(
       if (error) throw error;
       console.log(results)
       res.status(200).json({ results })
+      console.log('resolving now')
       resolve()
+      console.log('resolved')
       } catch (error) {
-        console.log(error)
+        console.log(error, "line 48")
         res.status(500).json(error)
       resolve()
       }
