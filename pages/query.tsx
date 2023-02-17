@@ -44,7 +44,7 @@ export default function Home() {
   
   const handleSQL = async (SQL: string) => {
     setState(pS=>({...pS, querying: true, data: []}))
-    const resp = await fetch('/api/lens', {
+    const resp = await fetch('/api/lensRead', {
       method: "POST",
       body: JSON.stringify({ SQL }),
     })
