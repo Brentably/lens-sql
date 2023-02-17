@@ -36,6 +36,8 @@ export default async function handler(
   // have to return a promise because waiting on the api call https://stackoverflow.com/questions/60684227/api-resolved-without-sending-a-response-in-nextjs
   return new Promise<void>((resolve, reject) => {
     // call to SQL database
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'max-age=180000');
     connection.query(query, function (error, results, fields) {
       try{
       if (error) throw error;
