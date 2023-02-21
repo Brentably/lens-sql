@@ -10,7 +10,7 @@ export default function Nav() {
 
   useEffect(() => {
     console.log(router)
-  }, []);
+  }, [router]);
 
   return (
     <div className='w-full px-20 flex'>
