@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Arial";
+  font-weight: 400;
+  src: url("../assets/font/Arial_Black.ttf");
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.transBtn:hover{
+  top:-2px !important;
+  /* left:-2px !important; */
+  
+  transition: 0.1s;
+}
+
+textarea:focus{
+  outline:none !important;
+  border: none !important;
+  --tw-ring-shadow: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none
+}
+
+.database-alert{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
