@@ -29,23 +29,26 @@ export default function TreeNode(props: any) {
                         alt=""
                     />
                     <span>{props.data.title}</span>
-                    <span className='ml-[auto]'>
-                        {
-                            open ? (
-                                <Image
-                                    className="mr-[40px]"
-                                    src={Up}
-                                    alt=""
-                                />
-                            ) : (
-                                <Image
-                                    className="mr-[40px]"
-                                    src={Down}
-                                    alt=""
-                                />
-                            )
-                        }
-                    </span>
+                    {
+                        props.data.children.length > 0 &&
+                        <span className='ml-[auto]'>
+                            {
+                                open ? (
+                                    <Image
+                                        className="mr-[40px]"
+                                        src={Up}
+                                        alt=""
+                                    />
+                                ) : (
+                                    <Image
+                                        className="mr-[40px]"
+                                        src={Down}
+                                        alt=""
+                                    />
+                                )
+                            }
+                        </span>
+                    }
                 </div>
             }
             {
