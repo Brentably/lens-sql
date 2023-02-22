@@ -44,7 +44,7 @@ export default function Home() {
   
   const handleSQL = async (SQL: string) => {
     setState(pS=>({...pS, querying: true, data: []}))
-    const resp = await fetch('/api/lens', {
+    const resp = await fetch('/api/lensRead', {
       method: "POST",
       body: JSON.stringify({ SQL }),
     })
@@ -99,7 +99,6 @@ export default function Home() {
           </div>
           {SQL ? <>
             <div className='bg-white text-base text-left m-2 whitespace-pre-line flex flex-row justify-between' >
-              
               <div contentEditable="true">{SQL}</div>
               <button className='bg-red-400 p-2 self-start rounded-bl-lg'>Save</button>
             </div>
