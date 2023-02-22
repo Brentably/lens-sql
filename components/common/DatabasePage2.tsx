@@ -13,15 +13,16 @@ import Line from './Line'
 
 const examples = ['Description 1', 'Description 1', 'Description 1', 'Description 1']
 
-export default function DatabasePage1(props) {
+export default function DatabasePage2(props) {
 
   const [isLoading, setIsloading] = useState<boolean>(true)
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
-  const [showTip,setShowTip] = useState<boolean>(true) 
+  const [showTip, setShowTip] = useState<boolean>(false) 
 
-  const [textData, setTextData] = useState<any>('')
+  // prompt
+  const [textData, setTextData] = useState<string>('')
 
   const onchage = (e) => {
     console.log(e)
