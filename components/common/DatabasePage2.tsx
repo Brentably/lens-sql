@@ -12,12 +12,13 @@ import Bar from './Bar'
 import Line from './Line'
 import { insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
+import examples from '../../lib/examples.json'
 
-const examples = ['Description 1', 'Description 1', 'Description 1', 'Description 1']
+// const examples = ['Description 1', 'Description 1', 'Description 1', 'Description 1']
 
 export default function DatabasePage2(props) {
 
-  const [sqlIsLoading, setSqlIsLoading] = useState<boolean>(false)
+  const [isSqlLoading, setIsSqlLoading] = useState<boolean>(false)
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
@@ -31,9 +32,9 @@ export default function DatabasePage2(props) {
   const [results, setResults] = useState<any[]>([])
 
   const handleRun = async () => {
-    console.log(`running!`, textData, sqlIsLoading)
-    if(!textData || sqlIsLoading) return
-    setSqlIsLoading(true)
+    console.log(`running!`, textData, isSqlLoading)
+    if(!textData || isSqlLoading) return
+    setIsSqlLoading(true)
     console.log('fetching with prompt:', textData)
     let resp = await fetch('/api/genSQL', {
       method: "POST",
@@ -46,7 +47,7 @@ export default function DatabasePage2(props) {
     const SQL = insertLineBreaks("SELECT " + response.data)
     console.log(SQL)
     setSQL(SQL)
-    setSqlIsLoading(false)
+    setIsSqlLoading(false)
     // handle SQL
     resp = await fetch('/api/lensRead', {
       method: "POST",
@@ -69,7 +70,7 @@ export default function DatabasePage2(props) {
     <div>
       {/* search bar / prompt part */}
       <div className='h-[200px] border-[2px] border-[#000] rounded-[10px]'>
-        <textarea className='w-full h-[120px] border-none rounded-[10px]' placeholder='Please describe the data you want' value={textData} onChange={(e) => setTextData(e.target.value)}></textarea>
+        <textarea className='w-full h-[120px] border-none rounded-[10px] resize-none' placeholder='Please describe the data you want' value={textData} onChange={(e) => setTextData(e.target.value)}></textarea>
         <Image
           className="transDatabaseBtn ml-[auto] cursor-pointer mr-[20px]"
           src={Enter}
@@ -77,21 +78,31 @@ export default function DatabasePage2(props) {
           onClick={handleRun}
         />
       </div>
-
-    {/* Magic is happening / SQL part */}
+      {!SQL && !isSqlLoading ? <>
+      <div className="my-5 text-[20px] font-[700]">Description examples</div>
+      {
+        examples.slice(0,4).map((t: any, i: number) => (
+          <div key={i} className="border-[2px] border-[#000] rounded-[10px] px-5 py-5 mb-5 cursor-pointer" onClick={() => {
+            setTextData(t.text)
+            handleRun()
+          }}>{t.text}</div>
+        ))
+      }
+     </> : null }
+      {/* Magic is happening / SQL part */}
       <div className='mt-5'>
         <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>Magic is happening…</div>
         <div className='h-[260px] border-[2px] border-[#000] rounded-bl-[10px] rounded-br-[10px] rounded-tr-[10px] py-2 px-3 whitespace-pre-line'>
           {
-            sqlIsLoading &&
+            isSqlLoading &&
             <Image
               src={Loading}
               alt=""
             />
           }
-          {
+          { SQL ?
             SQL
-          }
+          : null }
         </div>
       </div>
 
@@ -123,7 +134,7 @@ export default function DatabasePage2(props) {
               alt=""
             />
           </div>
-          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5'>
+          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5 object-contain overflow-scroll'>
             {results.length > 0 && <Table data={results} />}
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5'>
