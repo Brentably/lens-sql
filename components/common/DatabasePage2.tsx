@@ -36,7 +36,7 @@ export default function DatabasePage2(props) {
 
   return (
     <div>
-
+      {/* search bar / prompt part */}
       <div className='h-[200px] border-[2px] border-[#000] rounded-[10px]'>
         <textarea className='w-full h-[120px] border-none rounded-[10px]' placeholder='Please describe the data you want' value={textData} onChange={(e) => setTextData(e.target.value)}></textarea>
         <Image
@@ -46,6 +46,7 @@ export default function DatabasePage2(props) {
         />
       </div>
 
+    {/* Magic is happening / SQL part */}
       <div className='mt-5'>
         <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>Magic is happening…</div>
         <div className='h-[260px] border-[2px] border-[#000] rounded-bl-[10px] rounded-br-[10px] rounded-tr-[10px]'>
@@ -60,8 +61,10 @@ export default function DatabasePage2(props) {
       </div>
 
       <div className='flex justify-end my-5'>
+        {/* save: onclick should save in the DB fangren mentioned */}
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Save</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Explain</button>
+        {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Run</button>
       </div>
 
