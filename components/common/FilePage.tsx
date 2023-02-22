@@ -1,11 +1,16 @@
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import ChartHover from './../../statics/img/chart-hover.svg'
 import downloadHover from './../../statics/img/download-hover.svg'
 import UploadDefault from './../../statics/img/supload.svg'
+import Close from './../../statics/img/close.svg'
 import Bar from './Bar'
 import Line from './Line'
 
 export default function FilePage() {
+
+  const [showTip,setShowTip] = useState<boolean>(false) 
+
   return (
     <div>
 
@@ -14,7 +19,7 @@ export default function FilePage() {
       </div>
 
       <div className='flex justify-end my-5'>
-        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Save</button>
+        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => setShowTip(true)}>Save</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Explain</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Run</button>
       </div>
@@ -72,6 +77,26 @@ export default function FilePage() {
           </div>
         </div>
       </div>
+
+      {
+        showTip &&
+        <div className='w-[460px] border-[2px] border-[#000] database-alert bg-[#fff] rounded-[10px] p-8'>
+          <div className='flex'>
+            <div className='w-[80%]'>Save file as</div>
+            <Image
+              className="cursor-pointer h-[40px] w-[40px] ml-[auto]"
+              onClick={() => setShowTip(false)}
+              src={Close}
+              alt=""
+            />
+          </div>
+          <div className='border-[2px] border-[#000] px-2 py-2 rounded-[10px] mt-10'><input placeholder='New File'></input></div>
+          <div className='flex justify-end mt-10'>
+          <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer">Save</button>
+          </div>
+        </div>
+      }
+
     </div>
   )
 }
