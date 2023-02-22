@@ -9,44 +9,136 @@ const tabs = ['Database','Files']
 
 const databaseData = [{
   id: '1', 
-  title: "dataBase1", 
+  title: "lens_bak", 
   level:1,
   children: [
     {
       id: '1-1',
-      title: "github_events1",
+      title: "Follows",
       level:2,
       children: [
         {
           id: '1-1-1',
-          title: "id",
+          title: "follower_id",
           level:3,
         },
         {
           id: '1-1-2',
-          title: "type",
+          title: "follower_address",
           level:3,
         },
         {
           id: '1-1-2',
-          title: "created_at",
+          title: "follower_name",
           level:3,
         },
         {
           id: '1-1-2',
-          title: "repo_id",
+          title: "followee_id",
+          level:3,
+        },
+        {
+          id: '1-1-2',
+          title: "followee_address",
+          level:3,
+        },
+        {
+          id: '1-1-2',
+          title: "followee_name",
+          level:3,
+        },
+        {
+          id: '1-1-2',
+          title: "timestamp",
+          level:3,
+        }
+      ],
+    },
+    {
+      id: '1-2',
+      title: "Users",
+      level:2,
+      children: [
+        {
+          id: '1-2-1',
+          title: "user_id",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "metadata",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "user_name",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "address",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "imageURI",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "timestamp",
           level:3,
         },
       ],
     },
     {
       id: '1-2',
-      title: "github_events2",
+      title: "Publications",
       level:2,
       children: [
         {
           id: '1-2-1',
-          title: "id",
+          title: "user_id",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "address",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "user_name",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "in_reply_to_user_id",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "in_reply_to_post_id",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "in_reply_to_address",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "in_reply_to_user_name",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "post_id",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "content_URI",
           level:3,
         },
         {
@@ -54,46 +146,74 @@ const databaseData = [{
           title: "type",
           level:3,
         },
-      ],
-    },
-  ]
-},
-{
-  id: '2', 
-  title: "dataBase1", 
-  level:1,
-  children: [
-    {
-      id: '2-1',
-      title: "github_events1",
-      level:2,
-      children: [
         {
-          id: '2-1-1',
-          title: "id",
+          id: '1-2-2',
+          title: "timestamp",
           level:3,
         },
         {
-          id: '2-1-2',
-          title: "type",
+          id: '1-2-2',
+          title: "comment_count",
           level:3,
-        }
-      ],
-    },
-    {
-      id: '2-2',
-      title: "github_events2",
-      level:2,
-      children: [
+        },
         {
-          id: '2-2-1',
-          title: "id",
+          id: '1-2-2',
+          title: "mirror_count",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "content",
+          level:3,
+        },
+        {
+          id: '1-2-2',
+          title: "image",
           level:3,
         }
       ],
     },
   ]
-}]
+}
+// ,
+// {
+//   id: '2', 
+//   title: "dataBase1", 
+//   level:1,
+//   children: [
+//     {
+//       id: '2-1',
+//       title: "github_events1",
+//       level:2,
+//       children: [
+//         {
+//           id: '2-1-1',
+//           title: "id",
+//           level:3,
+//         },
+//         {
+//           id: '2-1-2',
+//           title: "type",
+//           level:3,
+//         }
+//       ],
+//     },
+//     {
+//       id: '2-2',
+//       title: "github_events2",
+//       level:2,
+//       children: [
+//         {
+//           id: '2-2-1',
+//           title: "id",
+//           level:3,
+//         }
+//       ],
+//     },
+    
+//   ]
+// }
+]
 
 const files = [{
   id: '1', 
