@@ -54,6 +54,21 @@ export default function DatabasePage2(props) {
   const store = useState<databasePageState>(defaultState)
   const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
 
+  const getResults = async (SQL: string) => {
+    setState(ps=>({...ps, results: [], isResultLoading: true}))
+    // handle SQL
+    let resp = await fetch('/api/lensRead', {
+      method: "POST",
+      body: JSON.stringify({ SQL }),
+    })
+    let response = await resp.json()
+    if(resp.status != 200) return console.error('error', response)
+    console.log('SQL resp', response)
+    const results:Array<any> = response?.results
+    // setResults(results)
+    setState(ps=>({...ps, results: results, isResultLoading: false}))
+  }
+
   const handleRun = async (prompt = promptText) => {
     console.log(`running!`, prompt, isSqlLoading)
     if(!prompt || isSqlLoading) return
@@ -70,17 +85,9 @@ export default function DatabasePage2(props) {
     const SQL = insertLineBreaks("SELECT " + response.data)
     console.log(SQL)
     setState(pS => ({...pS, SQL: SQL, isSqlLoading: false, isResultLoading: true}))
-    // handle SQL
-    resp = await fetch('/api/lensRead', {
-      method: "POST",
-      body: JSON.stringify({ SQL }),
-    })
-    response = await resp.json()
-    if(resp.status != 200) return console.error('error', response)
-    console.log('SQL resp', response)
-    const results:Array<any> = response?.results
-    // setResults(results)
-    setState(ps=>({...ps, results: results, isResultLoading: false}))
+    
+    //handle SQL
+    await getResults(SQL)
   }
 
   return (
@@ -118,7 +125,10 @@ export default function DatabasePage2(props) {
             />
           }
           { SQL ?
-            SQL
+          <textarea  className='w-full h-full border-none rounded-[10px] resize-none' value={SQL} 
+          onChange={(e) => setState(ps => ({...ps, SQL: e.target.value}))}>
+            {SQL}
+          </textarea>
           : null }
         </div>
       </div>
@@ -129,7 +139,7 @@ export default function DatabasePage2(props) {
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Save</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Explain</button>
         {/* run: should rerun query to show table / chart again */}
-        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Run</button>
+        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => getResults(SQL)}>Run</button>
       </div>
 
       <div className='mt-5'>
