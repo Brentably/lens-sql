@@ -31,7 +31,7 @@ export default async function handler(
 ) {
   console.log(req.body)
   const query:string = JSON.parse(req.body).SQL;
-  console.log('api/lensReadd called with query: ', query)
+  console.log('api/lensRead called with query: ', query)
 
   // have to return a promise because waiting on the api call https://stackoverflow.com/questions/60684227/api-resolved-without-sending-a-response-in-nextjs
   return new Promise<void>((resolve, reject) => {

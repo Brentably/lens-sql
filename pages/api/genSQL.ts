@@ -25,7 +25,7 @@ export default async function handler(
 
   const prompt = JSON.parse(req.body).prompt;
   const processedPrompt = preprocessing(prompt)
-
+  console.log(`api/genSQL called with prompt: ${prompt}`)
 
 try{
   const response = await openai.createCompletion({

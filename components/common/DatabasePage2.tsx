@@ -10,12 +10,14 @@ import UploadDefault from './../../statics/img/supload.svg'
 import Close from './../../statics/img/close.svg'
 import Bar from './Bar'
 import Line from './Line'
+import { insertLineBreaks } from '../../lib/helpers'
+import Table from '../Table'
 
 const examples = ['Description 1', 'Description 1', 'Description 1', 'Description 1']
 
 export default function DatabasePage2(props) {
 
-  const [isLoading, setIsloading] = useState<boolean>(true)
+  const [sqlIsLoading, setSqlIsLoading] = useState<boolean>(false)
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
@@ -23,9 +25,38 @@ export default function DatabasePage2(props) {
 
   // prompt
   const [textData, setTextData] = useState<string>('')
+  //SQL
+  const [SQL, setSQL] = useState<string>('')
+  // results
+  const [results, setResults] = useState<any[]>([])
 
-  const onchage = (e) => {
-    console.log(e)
+  const handleRun = async () => {
+    console.log(`running!`, textData, sqlIsLoading)
+    if(!textData || sqlIsLoading) return
+    setSqlIsLoading(true)
+    console.log('fetching with prompt:', textData)
+    let resp = await fetch('/api/genSQL', {
+      method: "POST",
+      body: JSON.stringify({ prompt: textData }),
+    })
+    if(resp.status != 200) return console.error('error', resp)
+    let response = await resp.json()
+    console.log(response)
+    //post-API call processing
+    const SQL = insertLineBreaks("SELECT " + response.data)
+    console.log(SQL)
+    setSQL(SQL)
+    setSqlIsLoading(false)
+    // handle SQL
+    resp = await fetch('/api/lensRead', {
+      method: "POST",
+      body: JSON.stringify({ SQL }),
+    })
+    response = await resp.json()
+    if(resp.status != 200) return console.error('error', response)
+    console.log('SQL resp', response)
+    const results:Array<any> = response?.results
+    setResults(results)
   }
 
   useEffect(() => {
@@ -43,19 +74,23 @@ export default function DatabasePage2(props) {
           className="transDatabaseBtn ml-[auto] cursor-pointer mr-[20px]"
           src={Enter}
           alt=""
+          onClick={handleRun}
         />
       </div>
 
     {/* Magic is happening / SQL part */}
       <div className='mt-5'>
         <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>Magic is happening…</div>
-        <div className='h-[260px] border-[2px] border-[#000] rounded-bl-[10px] rounded-br-[10px] rounded-tr-[10px]'>
+        <div className='h-[260px] border-[2px] border-[#000] rounded-bl-[10px] rounded-br-[10px] rounded-tr-[10px] py-2 px-3 whitespace-pre-line'>
           {
-            isLoading &&
+            sqlIsLoading &&
             <Image
               src={Loading}
               alt=""
             />
+          }
+          {
+            SQL
           }
         </div>
       </div>
@@ -89,13 +124,13 @@ export default function DatabasePage2(props) {
             />
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5'>
-            table
+            {results.length > 0 && <Table data={results} />}
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5'>
-            <Bar data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} />
+            {/* <Bar data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} /> */}
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px]'>
-            <Line data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} />
+            {/* <Line data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} /> */}
           </div>
 
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] p-5 flex'>
