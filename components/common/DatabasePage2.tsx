@@ -105,7 +105,7 @@ export default function DatabasePage2(props) {
           }}>{t.text}</div>
         ))
       }
-     </> : null }
+     </> : <>
       {/* Magic is happening / SQL part */}
       <div className='mt-5'>
         <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>{SQL ? 'SQL' : 'Magic is happening…'}</div>
@@ -122,6 +122,7 @@ export default function DatabasePage2(props) {
           : null }
         </div>
       </div>
+      </> }
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
@@ -152,7 +153,7 @@ export default function DatabasePage2(props) {
             />
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5 object-contain overflow-scroll'>
-            {isResultLoading ? "Magic is happening" : results.length > 0 && <Table data={results} />}
+            {isResultLoading ? "Magic is happening..." : results.length > 0 && <Table data={results} />}
           </div>
 
 
