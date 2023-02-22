@@ -160,20 +160,21 @@ export default function Home() {
         </div>
         <div className='h-full w-[calc(100%-300px)] p-6 overflow-y-auto'>
 
-          {
+        {/* What was this code for? */}
+          {/* {
             activeTab === 0 && !database && 
             <DatabasePage1 onchange={(t) => setDatabase(t)}/>
-          }
+          } */}
 
-          {
-            activeTab === 0 && database && 
-            <DatabasePage2 onchange={(t) => setDatabase(t)} description={database}/>
-          }
-
+          {/* {
+            activeTab === 0 && database &&  */}
+            <DatabasePage2 />
+          {/* } */}
+{/* 
           {
             activeTab === 1 && 
             <FilePage/>
-          }
+          } */}
         </div>
       </div>
     </div>
