@@ -34,6 +34,12 @@ textarea:focus{
   --tw-ring-shadow: none !important;
 }
 
+input:focus{
+  outline:none !important;
+  border: none !important;
+  --tw-ring-shadow: none !important;
+}
+
 ::-webkit-scrollbar {
   display: none
 }

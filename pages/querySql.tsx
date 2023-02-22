@@ -6,7 +6,8 @@ import DatabasePage2 from '../components/common/DatabasePage2'
 import FilePage from '../components/common/FilePage'
 
 const tabs = ['Database','Files']
-const treeData = [{
+
+const databaseData = [{
   id: '1', 
   title: "dataBase1", 
   level:1,
@@ -94,6 +95,19 @@ const treeData = [{
   ]
 }]
 
+const files = [{
+  id: '1', 
+  title: "file1", 
+  level:1,
+  children: []
+},
+{
+  id: '2', 
+  title: "file2", 
+  level:1,
+  children: []
+}]
+
 export default function Home() {
 
   const [activeTab,setActiveTab] = useState<any>(0)
@@ -123,9 +137,24 @@ export default function Home() {
           </div>
           <div className='p-4 bg-[#000] h-full overflow-y-auto'>
             {
-              treeData.map((t:any,i:number) => (
-                <TreeNode data={t} key={t.id} onchange={(items:any) => treeChange(items)} defaultSelectId={selectId}/>
-              ))
+              activeTab === 0 && 
+              <>
+                {
+                  databaseData.map((t:any,i:number) => (
+                    <TreeNode data={t} key={t.id} onchange={(items:any) => treeChange(items)} defaultSelectId={selectId}/>
+                  ))
+                }
+              </>
+            }
+            {
+              activeTab === 1 && 
+              <>
+                {
+                  files.map((t:any,i:number) => (
+                    <TreeNode data={t} key={t.id} onchange={(items:any) => treeChange(items)} defaultSelectId={selectId}/>
+                  ))
+                }
+              </>
             }
           </div>
         </div>
