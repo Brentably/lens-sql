@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Enter from './../../statics/img/Enter.svg'
 import Loading from './../../statics/img/loading.gif'
@@ -13,32 +13,55 @@ import Line from './Line'
 import { insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
 import examples from '../../lib/examples.json'
+import { pseudoRandomBytes } from 'crypto'
+import { setConstantValue } from 'typescript'
 
-// const examples = ['Description 1', 'Description 1', 'Description 1', 'Description 1']
+
+export type databasePageState = {
+  promptText: string
+  isSqlLoading: boolean
+  isResultLoading: boolean
+  SQL: string
+  results: any[]
+}
+
+export type databasePageStore = [databasePageState, Dispatch<SetStateAction<databasePageState>>]
+
+
+const defaultState:databasePageState = {
+  promptText: '',
+  isSqlLoading: false,
+  isResultLoading: false,
+  SQL: '',
+  results: [],
+}
 
 export default function DatabasePage2(props) {
 
-  const [isSqlLoading, setIsSqlLoading] = useState<boolean>(false)
+  // const [isSqlLoading, setIsSqlLoading] = useState<boolean>(false)
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
   const [showTip, setShowTip] = useState<boolean>(false) 
 
   // prompt
-  const [textData, setTextData] = useState<string>('')
+  // const [textData, setTextData] = useState<string>('')
   //SQL
-  const [SQL, setSQL] = useState<string>('')
+  // const [SQL, setSQL] = useState<string>('')
   // results
-  const [results, setResults] = useState<any[]>([])
+  // const [results, setResults] = useState<any[]>([])
 
-  const handleRun = async () => {
-    console.log(`running!`, textData, isSqlLoading)
-    if(!textData || isSqlLoading) return
-    setIsSqlLoading(true)
-    console.log('fetching with prompt:', textData)
+  const store = useState<databasePageState>(defaultState)
+  const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
+
+  const handleRun = async (prompt = promptText) => {
+    console.log(`running!`, prompt, isSqlLoading)
+    if(!prompt || isSqlLoading) return
+    setState(pS => ({...pS, SQL: '', isSqlLoading: true}))
+    console.log('fetching with prompt:', prompt)
     let resp = await fetch('/api/genSQL', {
       method: "POST",
-      body: JSON.stringify({ prompt: textData }),
+      body: JSON.stringify({ prompt: prompt }),
     })
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
@@ -46,8 +69,7 @@ export default function DatabasePage2(props) {
     //post-API call processing
     const SQL = insertLineBreaks("SELECT " + response.data)
     console.log(SQL)
-    setSQL(SQL)
-    setIsSqlLoading(false)
+    setState(pS => ({...pS, SQL: SQL, isSqlLoading: false, isResultLoading: true}))
     // handle SQL
     resp = await fetch('/api/lensRead', {
       method: "POST",
@@ -57,25 +79,20 @@ export default function DatabasePage2(props) {
     if(resp.status != 200) return console.error('error', response)
     console.log('SQL resp', response)
     const results:Array<any> = response?.results
-    setResults(results)
+    // setResults(results)
+    setState(ps=>({...ps, results: results, isResultLoading: false}))
   }
-
-  useEffect(() => {
-    if(props.description){
-      setTextData(props.description)
-    }
-  },[props])
 
   return (
     <div>
       {/* search bar / prompt part */}
       <div className='h-[200px] border-[2px] border-[#000] rounded-[10px]'>
-        <textarea className='w-full h-[120px] border-none rounded-[10px] resize-none' placeholder='Please describe the data you want' value={textData} onChange={(e) => setTextData(e.target.value)}></textarea>
+        <textarea className='w-full h-[120px] border-none rounded-[10px] resize-none' placeholder='Please describe the data you want' value={promptText} onChange={(e) => setState(ps => ({...ps, promptText: e.target.value}))}></textarea>
         <Image
           className="transDatabaseBtn ml-[auto] cursor-pointer mr-[20px]"
           src={Enter}
           alt=""
-          onClick={handleRun}
+          onClick={() => handleRun()}
         />
       </div>
       {!SQL && !isSqlLoading ? <>
@@ -83,15 +100,15 @@ export default function DatabasePage2(props) {
       {
         examples.slice(0,4).map((t: any, i: number) => (
           <div key={i} className="border-[2px] border-[#000] rounded-[10px] px-5 py-5 mb-5 cursor-pointer" onClick={() => {
-            setTextData(t.text)
-            handleRun()
+            setState(pS => ({...pS, promptText: t.text})) // changes UI
+            handleRun(t.text) // setState is async so we have to pass it in manually
           }}>{t.text}</div>
         ))
       }
      </> : null }
       {/* Magic is happening / SQL part */}
       <div className='mt-5'>
-        <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>Magic is happening…</div>
+        <div className='border-[2px] border-b-[0px] border-[#000] rounded-tl-[10px] rounded-tr-[10px] w-[fit-content] px-5 py-2 bg-[#181EFF] text-[#fff]'>{SQL ? 'SQL' : 'Magic is happening…'}</div>
         <div className='h-[260px] border-[2px] border-[#000] rounded-bl-[10px] rounded-br-[10px] rounded-tr-[10px] py-2 px-3 whitespace-pre-line'>
           {
             isSqlLoading &&
@@ -135,16 +152,18 @@ export default function DatabasePage2(props) {
             />
           </div>
           <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5 object-contain overflow-scroll'>
-            {results.length > 0 && <Table data={results} />}
+            {isResultLoading ? "Magic is happening" : results.length > 0 && <Table data={results} />}
           </div>
-          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5'>
+
+
+          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] mb-5 invisible'>
             {/* <Bar data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} /> */}
           </div>
-          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px]'>
+          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] invisible'>
             {/* <Line data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} /> */}
           </div>
 
-          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] p-5 flex'>
+          <div className='h-[260px] border-[2px] border-[#000] rounded-[10px] p-5 flex invisible'>
             <div className='border-[2px] border-[#000] w-[calc(50%-10px)] mr-5 rounded-[10px]'>
 
               <div className='py-[20px] px-[20px] rounded-[4px] relative my-[10px]'>
