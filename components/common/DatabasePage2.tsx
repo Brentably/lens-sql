@@ -64,6 +64,7 @@ export default function DatabasePage2(props) {
   const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
 
   const getResults = async (SQL: string) => {
+    if(!SQL) return // in case someone hits run but there's nothing there
     setState(ps=>({...ps, results: [], isResultLoading: true}))
     // handle SQL
     let resp = await fetch('/api/lensRead', {
