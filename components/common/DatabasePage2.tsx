@@ -13,8 +13,9 @@ import Line from './Line'
 import { insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
 import examples from '../../lib/examples.json'
-import { pseudoRandomBytes } from 'crypto'
-import { setConstantValue } from 'typescript'
+import { useAppState, useConnectWallet } from '@web3-onboard/react'
+import {BrowserProvider, ethers} from 'ethers'
+
 
 
 export type databasePageState = {
@@ -37,6 +38,14 @@ const defaultState:databasePageState = {
 }
 
 export default function DatabasePage2(props) {
+  const [{ wallet }, , ] = useConnectWallet()
+  const [ethersProvider, setEthersProvider] = useState<BrowserProvider | null>(null)
+
+  useEffect(() => {
+    if (wallet) {
+      setEthersProvider(new ethers.BrowserProvider(wallet.provider, 'any'))
+    }
+  }, [wallet])
 
   // const [isSqlLoading, setIsSqlLoading] = useState<boolean>(false)
 
