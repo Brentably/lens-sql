@@ -3,9 +3,10 @@ import Image from 'next/image'
 import HeadIcon from './../../statics/img/header_icon.png'
 import Btn from './Button'
 import { useRouter } from "next/router";
+import { useAppState, useConnectWallet } from '@web3-onboard/react'
 
 export default function Nav() {
-
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Nav() {
         }
       </div>
       <div className="ml-[auto] flex h-[100px] items-center">
-        <Btn text={'Connect Wallet'} />
+        <Btn text={connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect Wallet'} onClick={()=>(wallet ? disconnect(wallet) : connect())} />
       </div>
     </div>
   )
