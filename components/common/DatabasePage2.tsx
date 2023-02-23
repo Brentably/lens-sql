@@ -51,7 +51,9 @@ export default function DatabasePage2(props) {
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
-  const [showTip, setShowTip] = useState<boolean>(false) 
+  const [showSmartContractTip, setShowSmartContractTip] = useState<boolean>(false) 
+  const [showFileTip, setShowFileTip] = useState<boolean>(false) 
+
 
   // prompt
   // const [textData, setTextData] = useState<string>('')
@@ -146,7 +148,7 @@ export default function DatabasePage2(props) {
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
-        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Save</button>
+        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => setShowFileTip(true)}>Save</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Explain</button>
         {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => getResults(SQL)}>Run</button>
@@ -209,13 +211,13 @@ export default function DatabasePage2(props) {
         </div>
       </div>
       {
-        showTip &&
+        showSmartContractTip &&
         <div className='w-[460px] border-[2px] border-[#000] database-alert bg-[#fff] rounded-[10px] p-8'>
           <div className='flex'>
             <div className='w-[80%]'>Your Result is being delivered to smart contract</div>
             <Image
               className="cursor-pointer h-[40px] w-[40px] ml-[auto]"
-              onClick={() => setShowTip(false)}
+              onClick={() => setShowSmartContractTip(false)}
               src={Close}
               alt=""
             />
@@ -225,6 +227,26 @@ export default function DatabasePage2(props) {
           </div>
         </div>
       }
+
+      {
+        showFileTip &&
+        <div className='w-[460px] border-[2px] border-[#000] database-alert bg-[#fff] rounded-[10px] p-8'>
+          <div className='flex'>
+            <div className='w-[80%]'>Save file as</div>
+            <Image
+              className="cursor-pointer h-[40px] w-[40px] ml-[auto]"
+              onClick={() => setShowFileTip(false)}
+              src={Close}
+              alt=""
+            />
+          </div>
+          <div className='border-[2px] border-[#000] px-2 py-2 rounded-[10px] mt-10'><input placeholder='New File'></input></div>
+          <div className='flex justify-end mt-10'>
+          <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer">Save</button>
+          </div>
+        </div>
+      }
+
     </div>
   )
 }
