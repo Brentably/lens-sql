@@ -20,7 +20,7 @@ export default function TreeNode(props: any) {
             {
                 props.data.level === 1 &&
                 <div
-                    className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer flex text-[16px] ${props.defaultSelectId === props.data.id ? 'bg-[#181EFF]' : ''}`}
+                    className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer text-[16px] ${props.defaultSelectId === props.data.id ? 'bg-[#181EFF]' : ''}`}
                     onClick={() => levelClick(props.data)}
                 >
                     <Image
@@ -54,7 +54,7 @@ export default function TreeNode(props: any) {
             {
                 props.data.level === 2 &&
                 <div
-                    className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer flex text-[14px]`}
+                    className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer text-[14px]`}
                     onClick={() => levelClick(props.data)}
                 >
                     <span>{props.data.title}</span>
@@ -80,7 +80,7 @@ export default function TreeNode(props: any) {
             {
                 props.data.level === 3 &&
                 <div
-                    className="flex items-center px-4 mt-4 py-2 text-[#9A9A9A] cursor-pointer flex text-[12px]"
+                    className="flex items-center px-4 mt-4 py-2 text-[#9A9A9A] cursor-pointer text-[12px]"
                     onClick={() => setOpen(!open)}
                 >
                     <span>{props.data.title}</span>
