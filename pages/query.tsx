@@ -4,12 +4,11 @@ import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import QueryCard from '../components/QueryCard'
-import queries from '../lib/queries.json'
+import queries from '../lib/examples.json'
 import { insertLineBreaks } from '../lib/helpers'
 import searchIcon from '../lib/icons/search-interface-symbol.png'
 import close from '../lib/icons/close.png'
 import DisplayResults from '../components/DisplayResults'
-import Thumbs from '../components/Thumbs'
 import Header from '../components/Header'
 
 
@@ -103,9 +102,9 @@ export default function Home() {
               <button className='bg-red-400 p-2 self-start rounded-bl-lg'>Save</button>
             </div>
            </> : null}
-          {SQL && !searching ? 
+          {/* {SQL && !searching ? 
             <div className='bg-white text-left m-2'><Thumbs store={store} /></div>
-          : null}
+          : null} */}
 
           {data.length ? 
             <DisplayResults data={data} /> 
