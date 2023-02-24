@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react";
 
-export default function Btn(props:{text: string, theme?: string, onClick: MouseEventHandler<HTMLDivElement>}) {
+export default function Btn(props:{text: string, theme?: string, onClick?: MouseEventHandler<HTMLDivElement>}) {
 
   return (
     <div className={`relative h-[46px] w-[140px] border-[2px] ${props.theme && props.theme === 'block' ? 'border-[#000]' : 'border-[#181EFF]'} rounded-[10px]`} onClick={props.onClick}>
