@@ -10,15 +10,7 @@ import mysql from 'mysql';
 //   database : 'lens',
 //   port: 4000,
 // });
-var connection = mysql.createConnection({
-  host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
-  user     : 'lens_bakreadwrite',
-  password : process.env.NEXT_SERVER_LENS_BAK_KNN3,
-  database : 'lens_bak',
-  port: 4000,
-});
 
-connection.connect();
 
 // type Data = {
 //   name: string
@@ -29,6 +21,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  var connection = mysql.createConnection({
+    host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
+    user     : 'lens_bakreadwrite',
+    password : process.env.NEXT_SERVER_LENS_BAK_KNN3,
+    database : 'lens_bak',
+    port: 4000,
+  });
+  connection.connect();
+  
   console.log(req.body)
   const query:string = JSON.parse(req.body).SQL;
   console.log('api/lensRead called with query: ', query)
