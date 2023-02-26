@@ -53,6 +53,7 @@ export default function DatabasePage2(props) {
 
   const [showSmartContractTip, setShowSmartContractTip] = useState<boolean>(false) 
   const [showFileTip, setShowFileTip] = useState<boolean>(false) 
+  const [fileName, setFileName] = useState<string>('')
 
 
   // prompt
@@ -101,6 +102,17 @@ export default function DatabasePage2(props) {
     //handle SQL
     await getResults(SQL)
   }
+
+  const handleSave = async () => {
+    let resp = await fetch('/api/saveQuery', {
+      method: "POST",
+      body: JSON.stringify({ promptText, SQL, address: wallet?.accounts[0].address }),
+    })
+    if(resp.status != 200) return console.error('error', resp)
+    let response = await resp.json()
+    console.log(response)
+  }
+
 
   return (
     <div>
@@ -240,9 +252,11 @@ export default function DatabasePage2(props) {
               alt=""
             />
           </div>
-          <div className='border-[2px] border-[#000] px-2 py-2 rounded-[10px] mt-10'><input placeholder='New File'></input></div>
+          <div className='border-[2px] border-[#000] px-2 py-2 rounded-[10px] mt-10'>
+            <input placeholder='New File' value={fileName} onChange={(e) => setFileName(e.target.value)}></input>
+          </div>
           <div className='flex justify-end mt-10'>
-          <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer">Save</button>
+          <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer" onClick={handleSave}>Save</button>
           </div>
         </div>
       }
