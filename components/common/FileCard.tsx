@@ -5,12 +5,13 @@ import Down from './../../statics/img/down.svg'
 import SQL from './../../statics/img/SQL.svg'
 
 export default function FileCard(props: any) {
-
-
+    const [{promptText, isSqlLoading, isResultLoading, results}, setState] = props.store
+    const {file} = props
 
     return (
 
-    <div className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer text-[16px]`}>
+    <div className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer text-[16px]`}
+    onClick={() => setState(pS => ({...pS, SQL: file.sql, promptText: file.prompt }))}>
         <Image
             className="mr-[10px]"
             src={SQL}
