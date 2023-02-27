@@ -19,7 +19,6 @@ export const cleanSqlForDatabase = (SQL: string):string => {
 }
 // in the future can have a publication interface and just see if a results fits it. That's basically what this is.
 export const canShowPublications = (results: any[] | null):boolean => {
-  console.log(`can show publications called with results:`, results)
   if(results === null || results.length < 1) return false
   if(results?.length < 1 || results === null) return false
   // const keys = Object.keys(results[0])
@@ -32,8 +31,8 @@ export const canShowPublications = (results: any[] | null):boolean => {
 // }
 fetch
 
-export async function dFetch(input: RequestInfo | URL, init?: RequestInit | undefined): Promise<Response> {
+export function dUrl(input: string): string {
   let dInput = input
-  if(typeof(input) == 'string' && input.startsWith('ipfs://')) dInput = `https://ipfs.io/ipfs/${input.substring(7)}`
-  return await fetch(dInput, init)
+  if(input.startsWith('ipfs://')) dInput = `https://ipfs.io/ipfs/${input.substring(7)}`
+  return dInput
 }
