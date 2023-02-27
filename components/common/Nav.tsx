@@ -14,23 +14,28 @@ export default function Nav() {
   }, [router]);
 
   return (
-    <div className='w-full px-20 flex'>
-      <div className="flex h-[140px] items-center">
-        <Image
-          className="mr-[40px]"
-          src={HeadIcon}
-          alt=""
-        />
-        {
-          router.pathname === '/querySql' &&
-          <>
-            <button className="h-[46px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer" onClick={() => router.push('/home')}>Home</button>
-            <button className="h-[46px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] cursor-pointer">Query</button>
-          </>
-        }
-      </div>
-      <div className="ml-[auto] flex h-[100px] items-center">
-        <Btn text={connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect Wallet'} onClick={()=>(wallet ? disconnect(wallet) : connect())} />
+    <div className='w-full h-[140px] px-6 flex items-center'>
+      <div className='h-[100px] w-full flex px-6 shadow rounded-[20px]'>
+        <div className="flex items-center">
+          <div className='flex items-center w-full'>
+            <Image
+              className="mr-[40px]"
+              src={HeadIcon}
+              alt=""
+            />
+            {
+              router.pathname === '/querySql' &&
+              <>
+                <div className='mr-4'><Btn text={'Home'} theme={'block'} onClick={() => router.push('/home')} /></div>
+
+                <Btn text={'Query'} />
+              </>
+            }
+          </div>
+        </div>
+        <div className="ml-[auto] flex items-center">
+          <Btn text={connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect Wallet'} onClick={() => (wallet ? disconnect(wallet) : connect())} />
+        </div>
       </div>
     </div>
   )
