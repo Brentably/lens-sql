@@ -178,7 +178,6 @@ const databaseData = [{
     },
   ]
 }
-
 ]
 
 
@@ -258,16 +257,16 @@ export default function Home() {
   return (
     <div className='w-full h-full bg-[#fff] font-[Arial]'>
       <Nav />
-      <div className='w-full h-[calc(100vh-140px)] border-t-[2px] border-[#000] flex'>
-        <div className='h-full w-[300px] border-r-[2px] border-[#000]'>
-          <div className='flex h-[46px]'>
+      <div className='w-full h-[calc(100vh-140px)] flex px-6'>
+        <div className='h-full w-[300px] shadow rounded-[20px]'>
+          <div className='flex p-4 bg-[#F4F4F4]'>
               {
                 tabs.map((t:any,i:number) => (
-                  <div key={i} onClick={() => setActiveTab(i)} className={`cursor-pointer flex-1 flex justify-center items-center border-b-[2px] ${activeTab === i ? 'bg-[#181EFF] text-[#fff]' : ''} ${i === 0 ? 'border-r-[2px]' : ''} border-[#000]`}>{t}</div>
+                  <div key={i} onClick={() => setActiveTab(i)} className={`cursor-pointer h-[46px] flex-1 flex justify-center items-center ${activeTab === i ? 'bg-[#181EFF] text-[#fff]' : ''} shadow rounded-[10px] ${i === 0 ? 'mr-4' : ''}`}>{t}</div>
                 ))
               }
           </div>
-          <div className='p-4 bg-[#000] h-full overflow-y-auto'>
+          <div className='p-4 pt-0 bg-[#F4F4F4] h-full overflow-y-auto'>
             {
               activeTab === 0 && 
               <>

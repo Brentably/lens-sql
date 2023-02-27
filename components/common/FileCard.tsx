@@ -10,7 +10,7 @@ export default function FileCard(props: any) {
 
     return (
 
-    <div className={`flex items-center px-4 mt-4 py-4 text-[#fff] hover:bg-[#181EFF] rounded-[16px] cursor-pointer text-[16px]`}
+    <div className={`flex items-center px-4 mt-4 py-4 text-[#797979] hover:text-[#fff] hover:bg-[#181EFF] bg-[#F4F4F4] shadow rounded-[16px] cursor-pointer text-[16px]`}
     onClick={() => setState(pS => ({...pS, SQL: file.sql, promptText: file.prompt }))}>
         <Image
             className="mr-[10px]"

@@ -21,9 +21,8 @@ export default function Home() {
           <p className='text-[26px]'>Powered by KNN3 and OpenAI</p>
           <div className='flex mt-10'>
             <div className='mr-[100px]'>
-              <Link href='/querySql'><Btn text={'Query'} /></Link>
+              <Link href='/querySql'><Btn text={'Try it now'} theme={'block'} /></Link>
             </div>
-            <div><Btn text={'About us'} theme={'block'} /></div>
           </div>
         </div>
         <div className='absolute bottom-[-40px] right-[0px] w-[500px]'>
