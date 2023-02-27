@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import Nav from '../components/common/Nav'
 import TreeNode from '../components/common/TreeNode'
 import DatabasePage1 from '../components/common/DatabasePage1'
@@ -225,10 +225,8 @@ export default function Home() {
     setAddress(wallet?.accounts[0].address || "")
   }, [wallet])
 
-  // set files. IDEALLY 
-  useEffect(() => {
 
-    async function getFiles() {
+  const getFiles = useCallback(async function getFiles() {
     let resp = await fetch('/api/getFiles', {
       method: "POST",
       body: JSON.stringify({ address }),
@@ -237,9 +235,12 @@ export default function Home() {
     let response = await resp.json()
     setFiles(response.results)
     console.log(response.results)
-    } 
+    } , [address])
+  // set files. IDEALLY 
+  useEffect(() => {
+
     address ? getFiles() : setFiles([{id: 1, prompt: "connect wallet to see files"}])
-  }, [address])
+  }, [address, getFiles])
 
   const [activeTab,setActiveTab] = useState<any>(0)
 
@@ -291,7 +292,7 @@ export default function Home() {
         </div>
         <div className='h-full w-[calc(100%-300px)] p-6 overflow-y-auto'>
 
-            <DatabasePage2 store={store}/>
+            <DatabasePage2 store={store} getFiles={getFiles} />
 
         </div>
       </div>
