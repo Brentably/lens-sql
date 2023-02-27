@@ -38,17 +38,29 @@ export default function DatabasePage2(props) {
 
   const [{ promptText, isSqlLoading, isResultLoading, SQL, results }, setState] = props.store
 
+  const [controllers, setControllers] = useState<AbortController[] | []>([])
+  // const controller = new AbortController();
+  // const signal = controller.signal;
+  const handleClear = () => {
+    for(let controller of controllers) controller.abort()
+    props.clearState()
+  }
+
   const getResults = async (SQL: string) => {
-    if(!wallet) {
-      setShowNotConnectTip(true)
-      return
-    }
+    // comment back in later
+    // if(!wallet) { 
+    //   setShowNotConnectTip(true)
+    //   return
+    // }
     if (!SQL) return // in case someone hits run but there's nothing there
     setState(ps => ({ ...ps, results: [], isResultLoading: true }))
+    const controller = new AbortController()
+    setControllers(pc => [...pc, controller])
     // handle SQL
     let resp = await fetch('/api/lensRead', {
       method: "POST",
       body: JSON.stringify({ SQL }),
+      signal: controller.signal
     })
     let response = await resp.json()
     if (resp.status != 200) return console.error('error', response)
@@ -63,9 +75,12 @@ export default function DatabasePage2(props) {
     if (!prompt || isSqlLoading) return
     setState(pS => ({ ...pS, SQL: '', isSqlLoading: true }))
     console.log('fetching with prompt:', prompt)
+    const controller = new AbortController()
+    setControllers(pc => [...pc, controller])
     let resp = await fetch('/api/genSQL', {
       method: "POST",
       body: JSON.stringify({ prompt: prompt }),
+      signal: controller.signal
     })
     if (resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
@@ -81,9 +96,12 @@ export default function DatabasePage2(props) {
 
   const handleSave = async () => {
     if (!wallet) return // in future would like to show error here
+    const controller = new AbortController()
+    setControllers(pc => [...pc, controller])
     let resp = await fetch('/api/saveQuery', {
       method: "POST",
       body: JSON.stringify({ promptText, SQL, address: wallet?.accounts[0].address }),
+      signal: controller.signal
     })
     if (resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
@@ -134,7 +152,7 @@ export default function DatabasePage2(props) {
                 onChange={(e) => setState(ps => ({ ...ps, SQL: e.target.value }))}>
                 {SQL}
               </textarea>
-              : null}
+            : null}
           </div>
         </div>
       </>}
@@ -145,7 +163,7 @@ export default function DatabasePage2(props) {
         {/* <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5'>Explain</button> */}
         {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={() => getResults(SQL)}>Run</button>
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5'>Cancel</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleClear}>Cancel</button>
       </div>
 
       <div className='mt-5'>
@@ -154,7 +172,7 @@ export default function DatabasePage2(props) {
           <div className='flex'>
             <div className='h-[260px] mr-2 w-[calc(100%-70px)]'>
               <div className='h-full w-full mb-5 object-contain overflow-scroll'>
-                {isResultLoading ? "Magic is happening..." : results.length > 0 && <Table data={results} />}
+                {isResultLoading ? "Magic is happening..." : results?.length > 0 ? <Table data={results} /> : results != null && "no results"}
               </div>
               <div className='h-full w-full mb-5 invisible'>
                 {/* <Bar data={{ xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], yData: [120, 200, 150, 80, 70, 110, 130] }} /> */}
