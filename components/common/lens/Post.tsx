@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react"
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Commesdf from '../../../statics/img/card-comment.png'
 import Mirror from '../../../statics/img/mirror.png'
 import Like from '../../../statics/img/like.png'
 import Collect from '../../../statics/img/collect.png'
 import PostBg from '../../../statics/img/post-bg.png'
 import User from './User'
+import { dUrl } from "../../../lib/helpers"
 
 const Post = (props:any) => {
-  const {content_URI, user_name, mirror_count, comment_count, content} = props
+  const {content_URI, user_name, mirror_count, comment_count, content, image} = props
 
-  useEffect(() => {
-    async function ue() {
-      // HAS TO HANDLE `IPFS://aljksdfhadslkjhglsjgd` style URIs
-      // const resp = await fetch(contentURI)
-      // const data = await resp.json()
-      // setContent(JSON.stringify(data))
-    }
-    ue()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+
+  // useEffect(() => {
+
+  //   async function ue() {
+
+  //   }
+  //   ue()
+  // }, [])
 
 
   return (
@@ -27,11 +26,15 @@ const Post = (props:any) => {
     <User {...props} />
     <div className='shadow p-5 rounded-[16px]'>
               <p>{content}</p>
+              {image ?
               <Image
-                src={PostBg}
-                className='rounded-[16px] my-5'
+                src={dUrl(image)}
+                className='rounded-[16px] my-5 '
+                width={100}
+                height={100}
                 alt=""
               />
+              : null }
               <div className='flex items-center'>
                 <Image
                   src={Commesdf}
