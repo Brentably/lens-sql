@@ -8,10 +8,13 @@ export default function FileCard(props: any) {
     const [{promptText, isSqlLoading, isResultLoading, results}, setState] = props.store
     const {file} = props
 
+    let disable = false
+    if(props.prompt == "connect wallet to see files") disable = true
+
     return (
 
-    <div className={`flex items-center px-4 mt-4 py-4 text-[#797979] hover:text-[#fff] hover:bg-[#181EFF] bg-[#F4F4F4] shadow rounded-[16px] cursor-pointer text-[16px]`}
-    onClick={() => setState(pS => ({...pS, SQL: file.sql, promptText: file.prompt }))}>
+    <div className={`flex items-center px-4 mt-4 py-4 text-[#797979]  bg-[#F4F4F4] shadow rounded-[16px] ${!disable && 'cursor-pointer hover:text-[#fff] hover:bg-[#181EFF]'} text-[16px]`}
+    onClick={!disable ? () => setState(pS => ({...pS, SQL: file.sql, promptText: file.prompt })) : () => ""}>
         <Image
             className="mr-[10px]"
             src={SQL}
