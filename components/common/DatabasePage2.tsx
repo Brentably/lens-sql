@@ -39,7 +39,10 @@ export default function DatabasePage2(props) {
   const [{ promptText, isSqlLoading, isResultLoading, SQL, results }, setState] = props.store
 
   const getResults = async (SQL: string) => {
-    setShowNotConnectTip(true)
+    if(!wallet) {
+      setShowNotConnectTip(true)
+      return
+    }
     if (!SQL) return // in case someone hits run but there's nothing there
     setState(ps => ({ ...ps, results: [], isResultLoading: true }))
     // handle SQL
@@ -138,11 +141,11 @@ export default function DatabasePage2(props) {
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5' onClick={handleSave}>Save</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleSave}>Save</button>
         {/* <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5'>Explain</button> */}
         {/* run: should rerun query to show table / chart again */}
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5' onClick={() => getResults(SQL)}>Run</button>
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5'>Cancel</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={() => getResults(SQL)}>Run</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5'>Cancel</button>
       </div>
 
       <div className='mt-5'>
@@ -262,27 +265,7 @@ export default function DatabasePage2(props) {
         </div>
       }
 
-      {/* { NOT using this code anymore cause queries don't need names
-        showFileTip &&
-        <div className='w-[460px] border-[2px] border-[#000] database-alert bg-[#fff] rounded-[10px] p-8'>
-          <div className='flex'>
-            <div className='w-[80%]'>Save file as</div>
-            <Image
-              className="cursor-pointer h-[40px] w-[40px] ml-[auto]"
-              onClick={() => setShowFileTip(false)}
-              src={Close}
-              alt=""
-            />
-          </div>
-          <div className='border-[2px] border-[#000] px-2 py-2 rounded-[10px] mt-10'>
-            <input placeholder='New File' value={fileName} onChange={(e) => setFileName(e.target.value)}></input>
-          </div>
-          <div className='flex justify-end mt-10'>
-          <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer" onClick={handleSave}>Save</button>
-          </div>
-        </div>
-      } */}
-
+     
       {
         showNotConnectTip &&
         <div className='w-[100vw] h-[100vh] bg-[rgba(0,0,0,0.5)] fixed top-0 left-0'>
