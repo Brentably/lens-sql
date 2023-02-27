@@ -5,10 +5,10 @@ import Mirror from '../../../statics/img/mirror.png'
 import Like from '../../../statics/img/like.png'
 import Collect from '../../../statics/img/collect.png'
 import PostBg from '../../../statics/img/post-bg.png'
+import User from './User'
 
 const Post = (props:any) => {
-  const {contentURI, handle} = props
-  const [content, setContent] = useState<string>('')
+  const {content_URI, user_name, mirror_count, comment_count, content} = props
 
   useEffect(() => {
     async function ue() {
@@ -23,8 +23,10 @@ const Post = (props:any) => {
 
 
   return (
+    <>
+    <User {...props} />
     <div className='shadow p-5 rounded-[16px]'>
-              <p>content</p>
+              <p>{content}</p>
               <Image
                 src={PostBg}
                 className='rounded-[16px] my-5'
@@ -36,13 +38,13 @@ const Post = (props:any) => {
                   className='h-[20px] w-[20px]'
                   alt=""
                 />
-                <span className='text-[#3C81F6] mr-5'>10</span>
+                <span className='text-[#3C81F6] mr-5'>{comment_count}</span>
                 <Image
                   src={Mirror}
                   className='h-[20px] w-[20px]'
                   alt=""
                 />
-                <span className='text-[#8B5DF6] mr-5'>10</span>
+                <span className='text-[#8B5DF6] mr-5'>{mirror_count}</span>
                 <Image
                   src={Like}
                   className='h-[20px] w-[20px]'
@@ -57,6 +59,7 @@ const Post = (props:any) => {
                 <span className='text-[#EF4444] mr-5'>10</span>
               </div>
       </div>
+    </>
   )
 }
 

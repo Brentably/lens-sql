@@ -17,3 +17,16 @@ export const insertLineBreaks = (SQL: string) => {
 export const cleanSqlForDatabase = (SQL: string):string => {
   return SQL.replaceAll(`'`, `\\'`).replaceAll(`\n`, ' ')
 }
+// in the future can have a publication interface and just see if a results fits it. That's basically what this is.
+export const canShowPublications = (results: any[] | null):boolean => {
+  console.log(`can show publications called with results:`, results)
+  if(results === null || results.length < 1) return false
+  if(results?.length < 1 || results === null) return false
+  // const keys = Object.keys(results[0])
+  // console.log(Boolean(keys.includes("user_name") && keys.includes("contentURI")))
+  return Boolean(results[0].user_name && results[0].content_URI && results[0].content && results[0].comment_count && results[0].mirror_count)
+}
+// export const canShowUsers = (results: any[]):boolean => {
+//   if(results[0])
+//   return true
+// }

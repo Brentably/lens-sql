@@ -1,7 +1,9 @@
 import Post from "./Post"
 
-const Posts = ({data}:{data: any[]}) => {
 
+
+const Publications = ({data}:{data: any[]}) => {
+  console.log(data)
 
 
   return (
@@ -11,4 +13,4 @@ const Posts = ({data}:{data: any[]}) => {
   )
 }
 
-export default Posts
+export default Publications

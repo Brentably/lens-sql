@@ -17,12 +17,13 @@ import PostBg from './../../statics/img/post-bg.png'
 import Close from './../../statics/img/close-wi.png'
 import Bar from './Bar'
 import Line from './Line'
-import { insertLineBreaks } from '../../lib/helpers'
+import { canShowPublications, insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
 import examples from '../../lib/examples.json'
 import { useAppState, useConnectWallet } from '@web3-onboard/react'
 import User from './lens/User'
 import Post from './lens/Post'
+import Publications from './lens/Publications'
 
 
 
@@ -216,7 +217,7 @@ export default function DatabasePage2(props) {
         <div className='w-full flex mb-5 '>
           <div className='w-[calc(50%-10px)] mr-5 rounded-[16px]'>
             <User />
-            <Post />
+            {canShowPublications(results) ? <Publications data={results} /> : null}
           </div>
 
           {/* <div className='shadow h-[200px] w-[calc(50%-10px)] rounded-[10px] p-[20px]'>
