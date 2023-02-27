@@ -3,8 +3,11 @@ import Post from "./Post"
 
 
 const Publications = ({data}:{data: any[]}) => {
-  console.log(data)
+  
 
+  // const ipfs = await IPFS.create()
+  // const fetch = await makeIpfsFetch({ipfs})
+ 
 
   return (
     <div className="text-center">
