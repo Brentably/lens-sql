@@ -4,6 +4,7 @@ import TreeNode from '../components/common/TreeNode'
 import DatabasePage1 from '../components/common/DatabasePage1'
 import DatabasePage2 from '../components/common/DatabasePage2'
 import FilePage from '../components/common/FilePage'
+import { useConnectWallet } from '@web3-onboard/react'
 
 const tabs = ['Database','Files']
 
@@ -229,6 +230,28 @@ const files = [{
 }]
 
 export default function Home() {
+
+  const [{ wallet }, , ] = useConnectWallet()
+  const [address, setAddress] = useState<string>('')
+  
+  useEffect(() => {
+    setAddress(wallet?.accounts[0].address || "")
+  }, [wallet])
+
+  // set files. IDEALLY 
+  useEffect(() => {
+    if(!address) return
+    async function getFiles() {
+    let resp = await fetch('/api/getFiles', {
+      method: "POST",
+      body: JSON.stringify({ address }),
+    })
+    if(resp.status != 200) return console.error('error', resp)
+    let response = await resp.json()
+    console.log(response)
+    } 
+    getFiles()
+  }, [address])
 
   const [activeTab,setActiveTab] = useState<any>(0)
 

@@ -52,7 +52,7 @@ export default function DatabasePage2(props) {
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
   const [showSmartContractTip, setShowSmartContractTip] = useState<boolean>(false) 
-  const [showFileTip, setShowFileTip] = useState<boolean>(false) 
+  // const [showFileTip, setShowFileTip] = useState<boolean>(false) 
   const [fileName, setFileName] = useState<string>('')
 
 
@@ -160,7 +160,7 @@ export default function DatabasePage2(props) {
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
-        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => setShowFileTip(true)}>Save</button>
+        <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={handleSave}>Save</button>
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5'>Explain</button>
         {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center bg-[#000] text-[#fff] h-[46px] rounded-[10px] cursor-pointer hover:bg-[#181EFF] mr-5' onClick={() => getResults(SQL)}>Run</button>
@@ -240,7 +240,7 @@ export default function DatabasePage2(props) {
         </div>
       }
 
-      {
+      {/* { NOT using this code anymore cause queries don't need names
         showFileTip &&
         <div className='w-[460px] border-[2px] border-[#000] database-alert bg-[#fff] rounded-[10px] p-8'>
           <div className='flex'>
@@ -259,7 +259,7 @@ export default function DatabasePage2(props) {
           <button className="h-[40px] w-[120px] bg-[#000] hover:bg-[#181EFF] text-[#fff] flex justify-center items-center rounded-[10px] mr-[20px] cursor-pointer" onClick={handleSave}>Save</button>
           </div>
         </div>
-      }
+      } */}
 
     </div>
   )
