@@ -187,7 +187,7 @@ export type databasePageState = {
   isSqlLoading: boolean
   isResultLoading: boolean
   SQL: string
-  results: any[]
+  results: any[] | null
 }
 
 export type databasePageStore = [databasePageState, Dispatch<SetStateAction<databasePageState>>]
@@ -198,7 +198,7 @@ const defaultState:databasePageState = {
   isSqlLoading: false,
   isResultLoading: false,
   SQL: '',
-  results: [],
+  results: null,
 }
 
 
@@ -215,6 +215,7 @@ export default function Home() {
   }, [wallet])
 
   const store = useState<databasePageState>(defaultState)
+  const clearState = () => store[1](defaultState)
   const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
 
   const [address, setAddress] = useState<string>('')
@@ -291,7 +292,7 @@ export default function Home() {
         </div>
         <div className='h-full w-[calc(100%-300px)] p-6 overflow-y-auto'>
 
-            <DatabasePage2 store={store} getFiles={getFiles} />
+            <DatabasePage2 store={store} getFiles={getFiles} clearState={clearState} />
 
         </div>
       </div>
