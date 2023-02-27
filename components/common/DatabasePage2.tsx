@@ -36,6 +36,8 @@ export default function DatabasePage2(props) {
 
   const [showNotConnectTip, setShowNotConnectTip] = useState<boolean>(false)
 
+  const [saving, setSaving] = useState<boolean>(false)
+
   const [{ promptText, isSqlLoading, isResultLoading, SQL, results }, setState] = props.store
 
   const [controllers, setControllers] = useState<AbortController[] | []>([])
@@ -95,18 +97,20 @@ export default function DatabasePage2(props) {
   }
 
   const handleSave = async () => {
-    if (!wallet) return // in future would like to show error here
-    const controller = new AbortController()
-    setControllers(pc => [...pc, controller])
+    if (!wallet) {
+      setShowNotConnectTip(true)
+      return
+    } // in future would like to show error here
+    setSaving(true)
     let resp = await fetch('/api/saveQuery', {
       method: "POST",
-      body: JSON.stringify({ promptText, SQL, address: wallet?.accounts[0].address }),
-      signal: controller.signal
+      body: JSON.stringify({ promptText, SQL, address: wallet?.accounts[0].address })
     })
     if (resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
     console.log(response)
-    props.getFiles()
+    await props.getFiles()
+    setSaving(false)
   }
 
 
@@ -159,7 +163,7 @@ export default function DatabasePage2(props) {
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleSave}>Save</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleSave} disabled={saving}>{saving? "Saving" : "Save"}</button>
         {/* <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5'>Explain</button> */}
         {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={() => getResults(SQL)}>Run</button>
