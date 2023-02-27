@@ -1,8 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { OpenAIApi, Configuration } from 'openai'
-import { preprocessing } from '../../lib/helpers';
-// import { replaceWords } from '../../lib/helpers';
+
 
 
 // type Data = {
@@ -24,7 +23,6 @@ export default async function handler(
 
 
   const prompt = JSON.parse(req.body).prompt;
-  const processedPrompt = preprocessing(prompt)
   console.log(`api/genSQL called with prompt: ${prompt}`)
 
 try{
