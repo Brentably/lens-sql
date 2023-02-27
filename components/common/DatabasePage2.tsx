@@ -17,54 +17,17 @@ import { useAppState, useConnectWallet } from '@web3-onboard/react'
 import {BrowserProvider, ethers} from 'ethers'
 
 
-
-export type databasePageState = {
-  promptText: string
-  isSqlLoading: boolean
-  isResultLoading: boolean
-  SQL: string
-  results: any[]
-}
-
-export type databasePageStore = [databasePageState, Dispatch<SetStateAction<databasePageState>>]
-
-
-const defaultState:databasePageState = {
-  promptText: '',
-  isSqlLoading: false,
-  isResultLoading: false,
-  SQL: '',
-  results: [],
-}
-
 export default function DatabasePage2(props) {
   const [{ wallet }, , ] = useConnectWallet()
-  const [ethersProvider, setEthersProvider] = useState<BrowserProvider | null>(null)
+ 
 
-  useEffect(() => {
-    if (wallet) {
-      setEthersProvider(new ethers.BrowserProvider(wallet.provider, 'any'))
-    }
-  }, [wallet])
 
-  // const [isSqlLoading, setIsSqlLoading] = useState<boolean>(false)
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
   const [showSmartContractTip, setShowSmartContractTip] = useState<boolean>(false) 
-  // const [showFileTip, setShowFileTip] = useState<boolean>(false) 
-  const [fileName, setFileName] = useState<string>('')
 
-
-  // prompt
-  // const [textData, setTextData] = useState<string>('')
-  //SQL
-  // const [SQL, setSQL] = useState<string>('')
-  // results
-  // const [results, setResults] = useState<any[]>([])
-
-  const store = useState<databasePageState>(defaultState)
-  const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
+  const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = props.store
 
   const getResults = async (SQL: string) => {
     if(!SQL) return // in case someone hits run but there's nothing there

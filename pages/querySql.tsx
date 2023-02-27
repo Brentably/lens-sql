@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Nav from '../components/common/Nav'
 import TreeNode from '../components/common/TreeNode'
 import DatabasePage1 from '../components/common/DatabasePage1'
@@ -6,6 +6,7 @@ import DatabasePage2 from '../components/common/DatabasePage2'
 import FilePage from '../components/common/FilePage'
 import { useConnectWallet } from '@web3-onboard/react'
 import FileCard from '../components/common/FileCard'
+import { BrowserProvider, ethers } from 'ethers'
 
 const tabs = ['Database','Files']
 
@@ -181,11 +182,44 @@ const databaseData = [{
 ]
 
 
+
+export type databasePageState = {
+  promptText: string
+  isSqlLoading: boolean
+  isResultLoading: boolean
+  SQL: string
+  results: any[]
+}
+
+export type databasePageStore = [databasePageState, Dispatch<SetStateAction<databasePageState>>]
+
+
+const defaultState:databasePageState = {
+  promptText: '',
+  isSqlLoading: false,
+  isResultLoading: false,
+  SQL: '',
+  results: [],
+}
+
+
+
 export default function Home() {
 
   const [{ wallet }, , ] = useConnectWallet()
+  const [ethersProvider, setEthersProvider] = useState<BrowserProvider | null>(null)
+
+  useEffect(() => {
+    if (wallet) {
+      setEthersProvider(new ethers.BrowserProvider(wallet.provider, 'any'))
+    }
+  }, [wallet])
+
+  const store = useState<databasePageState>(defaultState)
+  const [{promptText, isSqlLoading, isResultLoading, SQL, results}, setState] = store
+
   const [address, setAddress] = useState<string>('')
-  const [files, setFiles] = useState<any[]>([])
+  const [files, setFiles] = useState<any[]>([{id: 1, prompt: "connect wallet to see files"}])
   
   useEffect(() => {
     setAddress(wallet?.accounts[0].address || "")
@@ -193,7 +227,7 @@ export default function Home() {
 
   // set files. IDEALLY 
   useEffect(() => {
-    if(!address) return
+
     async function getFiles() {
     let resp = await fetch('/api/getFiles', {
       method: "POST",
@@ -204,7 +238,7 @@ export default function Home() {
     setFiles(response.results)
     console.log(response.results)
     } 
-    getFiles()
+    address ? getFiles() : setFiles([{id: 1, prompt: "connect wallet to see files"}])
   }, [address])
 
   const [activeTab,setActiveTab] = useState<any>(0)
@@ -247,8 +281,8 @@ export default function Home() {
               activeTab === 1 && 
               <>
                 {
-                  files.map((t:any,i:number) => (
-                    <FileCard key={i} prompt={t.prompt} />
+                  files.map((file:any,i:number) => (
+                    <FileCard key={i} prompt={file.prompt} store={store} file={file}/>
                   ))
                 }
               </>
@@ -257,21 +291,8 @@ export default function Home() {
         </div>
         <div className='h-full w-[calc(100%-300px)] p-6 overflow-y-auto'>
 
-        {/* What was this code for? */}
-          {/* {
-            activeTab === 0 && !database && 
-            <DatabasePage1 onchange={(t) => setDatabase(t)}/>
-          } */}
+            <DatabasePage2 store={store}/>
 
-          {/* {
-            activeTab === 0 && database &&  */}
-            <DatabasePage2 />
-          {/* } */}
-{/* 
-          {
-            activeTab === 1 && 
-            <FilePage/>
-          } */}
         </div>
       </div>
     </div>
