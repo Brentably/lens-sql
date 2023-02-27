@@ -14,7 +14,7 @@ import { insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
 import examples from '../../lib/examples.json'
 import { useAppState, useConnectWallet } from '@web3-onboard/react'
-import {BrowserProvider, ethers} from 'ethers'
+
 
 
 export default function DatabasePage2(props) {
@@ -75,6 +75,7 @@ export default function DatabasePage2(props) {
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
     console.log(response)
+    props.getFiles()
   }
 
 
