@@ -5,6 +5,7 @@ import DatabasePage1 from '../components/common/DatabasePage1'
 import DatabasePage2 from '../components/common/DatabasePage2'
 import FilePage from '../components/common/FilePage'
 import { useConnectWallet } from '@web3-onboard/react'
+import FileCard from '../components/common/FileCard'
 
 const tabs = ['Database','Files']
 
@@ -176,63 +177,15 @@ const databaseData = [{
     },
   ]
 }
-// ,
-// {
-//   id: '2', 
-//   title: "dataBase1", 
-//   level:1,
-//   children: [
-//     {
-//       id: '2-1',
-//       title: "github_events1",
-//       level:2,
-//       children: [
-//         {
-//           id: '2-1-1',
-//           title: "id",
-//           level:3,
-//         },
-//         {
-//           id: '2-1-2',
-//           title: "type",
-//           level:3,
-//         }
-//       ],
-//     },
-//     {
-//       id: '2-2',
-//       title: "github_events2",
-//       level:2,
-//       children: [
-//         {
-//           id: '2-2-1',
-//           title: "id",
-//           level:3,
-//         }
-//       ],
-//     },
-    
-//   ]
-// }
+
 ]
 
-const files = [{
-  id: '1', 
-  title: "file1", 
-  level:1,
-  children: []
-},
-{
-  id: '2', 
-  title: "file2", 
-  level:1,
-  children: []
-}]
 
 export default function Home() {
 
   const [{ wallet }, , ] = useConnectWallet()
   const [address, setAddress] = useState<string>('')
+  const [files, setFiles] = useState<any[]>([])
   
   useEffect(() => {
     setAddress(wallet?.accounts[0].address || "")
@@ -248,7 +201,8 @@ export default function Home() {
     })
     if(resp.status != 200) return console.error('error', resp)
     let response = await resp.json()
-    console.log(response)
+    setFiles(response.results)
+    console.log(response.results)
     } 
     getFiles()
   }, [address])
@@ -294,7 +248,7 @@ export default function Home() {
               <>
                 {
                   files.map((t:any,i:number) => (
-                    <TreeNode data={t} key={t.id} onchange={(items:any) => treeChange(items)} defaultSelectId={selectId}/>
+                    <FileCard key={i} prompt={t.prompt} />
                   ))
                 }
               </>
