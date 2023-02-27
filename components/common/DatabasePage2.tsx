@@ -67,6 +67,7 @@ export default function DatabasePage2(props) {
   }
 
   const handleSave = async () => {
+    if(!wallet) return // in future would like to show error here
     let resp = await fetch('/api/saveQuery', {
       method: "POST",
       body: JSON.stringify({ promptText, SQL, address: wallet?.accounts[0].address }),
