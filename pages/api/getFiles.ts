@@ -21,7 +21,7 @@ export default async function handler(
   
   const {address} = JSON.parse(req.body);
 
-  const query = `SELECT * FROM openai_prompt_sql_pairs WHERE LOWER(address) = LOWER('${address}')`
+  const query = `SELECT * FROM openai_prompt_sql_pairs WHERE LOWER(address) = LOWER('${address}') ORDER BY timestamp DESC`
   
 
   // have to return a promise because waiting on the api call https://stackoverflow.com/questions/60684227/api-resolved-without-sending-a-response-in-nextjs
