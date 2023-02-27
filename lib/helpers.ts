@@ -30,3 +30,10 @@ export const canShowPublications = (results: any[] | null):boolean => {
 //   if(results[0])
 //   return true
 // }
+fetch
+
+export async function dFetch(input: RequestInfo | URL, init?: RequestInit | undefined): Promise<Response> {
+  let dInput = input
+  if(typeof(input) == 'string' && input.startsWith('ipfs://')) dInput = `https://ipfs.io/ipfs/${input.substring(7)}`
+  return await fetch(dInput, init)
+}
