@@ -1,4 +1,4 @@
-import Posts from "./Posts"
+import Posts from "./common/lens/Posts"
 import Table from "./Table"
 
 

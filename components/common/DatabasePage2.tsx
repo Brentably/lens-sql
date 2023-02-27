@@ -21,6 +21,8 @@ import { insertLineBreaks } from '../../lib/helpers'
 import Table from '../Table'
 import examples from '../../lib/examples.json'
 import { useAppState, useConnectWallet } from '@web3-onboard/react'
+import User from './lens/User'
+import Post from './lens/Post'
 
 
 
@@ -211,59 +213,15 @@ export default function DatabasePage2(props) {
           </div>
         </div>
 
-        <div className='w-full flex mb-5 invisible'>
+        <div className='w-full flex mb-5 '>
           <div className='w-[calc(50%-10px)] mr-5 rounded-[16px]'>
-            <div className='shadow flex w-[fit-content] px-3 py-2 pr-10 rounded-[26px] cursor-pointer mb-3'>
-              <div className='h-[40px] w-[40px] rounded-[50%] mr-3'>
-                <Image
-                  src={LensImg}
-                  className='h-[40px] w-[40px] rounded-[50%]'
-                  alt=""
-                />
-              </div>
-              <div>
-                <p className='text-[14px]'>KNN3 Network</p>
-                <p className='text-[12px]'>@knn3_network</p>
-              </div>
-            </div>
-            <div className='shadow p-5 rounded-[16px]'>
-              <p>content</p>
-              <Image
-                src={PostBg}
-                className='rounded-[16px] my-5'
-                alt=""
-              />
-              <div className='flex items-center'>
-                <Image
-                  src={Commesdf}
-                  className='h-[20px] w-[20px]'
-                  alt=""
-                />
-                <span className='text-[#3C81F6] mr-5'>10</span>
-                <Image
-                  src={Mirror}
-                  className='h-[20px] w-[20px]'
-                  alt=""
-                />
-                <span className='text-[#8B5DF6] mr-5'>10</span>
-                <Image
-                  src={Like}
-                  className='h-[20px] w-[20px]'
-                  alt=""
-                />
-                <span className='text-[#ED57A1] mr-5'>10</span>
-                <Image
-                  src={Collect}
-                  className='h-[20px] w-[20px]'
-                  alt=""
-                />
-                <span className='text-[#EF4444] mr-5'>10</span>
-              </div>
-            </div>
+            <User />
+            <Post />
           </div>
-          <div className='shadow h-[200px] w-[calc(50%-10px)] rounded-[10px] p-[20px]'>
+
+          {/* <div className='shadow h-[200px] w-[calc(50%-10px)] rounded-[10px] p-[20px]'>
             description
-          </div>
+          </div> */}
         </div>
       </div>
       {
