@@ -25,7 +25,7 @@ const Post = (props:any) => {
     <>
     <User {...props} />
     <div className='shadow p-5 rounded-[16px]'>
-              <p>{content}</p>
+              <p className="text-left">{content}</p>
               {image ?
               <Image
                 src={dUrl(image)}
@@ -48,7 +48,8 @@ const Post = (props:any) => {
                   alt=""
                 />
                 <span className='text-[#8B5DF6] mr-5'>{mirror_count}</span>
-                <Image
+                {/* cant do likes or collects right now */}
+                {/* <Image
                   src={Like}
                   className='h-[20px] w-[20px]'
                   alt=""
@@ -59,7 +60,7 @@ const Post = (props:any) => {
                   className='h-[20px] w-[20px]'
                   alt=""
                 />
-                <span className='text-[#EF4444] mr-5'>10</span>
+                <span className='text-[#EF4444] mr-5'>10</span> */}
               </div>
       </div>
     </>

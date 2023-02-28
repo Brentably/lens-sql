@@ -122,7 +122,7 @@ export default function DatabasePage2(props) {
       {/* search bar / prompt part */}
       <div className='h-[220px] shadow rounded-[16px] p-4 pb-6'>
         <textarea className='w-full h-[120px] border-none rounded-[10px] resize-none' placeholder='Please describe the data you want' value={promptText} onChange={(e) => setState(ps => ({ ...ps, promptText: e.target.value }))}></textarea>
-        <div className='bg-[#F4F4F4] w-[fit-content] mr-[20px] ml-[auto] w-[50px] h-[50px] rounded-[50%] flex items-center justify-center shadow'>
+        <div className='bg-[#F4F4F4] mr-[20px] ml-[auto] w-[50px] h-[50px] rounded-[50%] flex items-center justify-center shadow'>
           <Image
             className="cursor-pointer"
             src={Enter}
