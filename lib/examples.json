@@ -4,11 +4,11 @@
     "validResp": "SELECT *\nFROM lens_publication_post_view\nWHERE handle = 'stani.lens'\nAND timestamp > (UNIX_TIMESTAMP() - 2592000)\nORDER BY timestamp DESC\nLIMIT 10"
   },
   {
-    "text": "Show me the top posters on lens",
+    "text": "Show me the top 5 posters on lens",
     "validResp": "SELECT handle, COUNT(*) AS post_count\nFROM lens_publication_post_view\nGROUP BY handle\nORDER BY post_count DESC\nLIMIT 10"
   },
   {
-    "text": "stani tweets about lending"
+    "text": "stani posts about lending"
   },
   {
     "text": "give me the most recent comments by the user fortunetrees"

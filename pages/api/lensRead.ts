@@ -21,11 +21,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  // var connection = mysql.createConnection({
+  //   host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
+  //   user     : 'lens_bakreadwrite',
+  //   password : process.env.NEXT_SERVER_LENS_BAK_KNN3,
+  //   database : 'lens_bak',
+  //   port: 4000,
+  // });
   var connection = mysql.createConnection({
     host     : 'tidb.uunmqwe9i4u.clusters.tidb-cloud.com',
-    user     : 'lens_bakreadwrite',
-    password : process.env.NEXT_SERVER_LENS_BAK_KNN3,
-    database : 'lens_bak',
+    user     : 'readonlyall',
+    password : process.env.NEXT_SERVER_LENS,
+    database : 'lens',
     port: 4000,
   });
   connection.connect();
