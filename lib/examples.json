@@ -8,45 +8,45 @@
     "validResp": "SELECT handle, COUNT(*) AS post_count\nFROM lens_publication_post_view\nGROUP BY handle\nORDER BY post_count DESC\nLIMIT 10"
   },
   {
-    "text": "stani posts about lending"
+    "text": "Stani posts about lending"
   },
   {
-    "text": "give me the most recent comments by the user fortunetrees"
+    "text": "Give me the most recent comments by the user fortunetrees"
   },
   {
-    "text": "top 10 people musk engages the most with"
+    "text": "Top 10 people musk engages the most with"
   },
   {
-    "text": "most popular lens users"
+    "text": "Most popular lens users"
   },
   {
-    "text": "most popular lens users by mirrors"
+    "text": "Most popular lens users by mirrors"
   },
   {
-    "text": "posts about ethereum this week"
+    "text": "Posts about ethereum this week"
   },
   {
-    "text": "most liked posts today"
+    "text": "Most liked posts today"
   },
   {
-    "text": "most liked posts about NFTs"
+    "text": "Most liked posts about NFTs"
   },
   {
-    "text": "who does stani like most often"
+    "text": "Who does stani like most often"
   },
   {
-    "text": "top web3 posts"
+    "text": "Top web3 posts"
   },
   {
-    "text": "top lending posts"
+    "text": "Top lending posts"
   },
   {
-    "text": "top nft posts"
+    "text": "Top nft posts"
   },
   {
-    "text": "stani posts about lens"
+    "text": "Stani posts about lens"
   },
   {
-    "text": "average number of likes per tweet across months for stani"
+    "text": "Average number of likes per tweet across months for stani"
   }
 ]

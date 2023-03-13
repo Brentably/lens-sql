@@ -5,6 +5,9 @@ import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import { InitOptions } from '@web3-onboard/core/dist/types.d'
 import Head from "next/head";
+import Image from 'next/image'
+import ImgHeader from '../statics/img/header_icon.png'
+import UserInfo from '../components/UserInfo'
 
 const rpcUrl = `https://polygon-mainnet.g.alchemy.com/v2/Y0WOab0Tfd2l3l_3h3DaacjeNPIeP1fO`
 
@@ -33,8 +36,6 @@ const initOptions: InitOptions = {
 
 const web3Onboard = init(initOptions)
 
-
-
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Web3OnboardProvider web3Onboard={web3Onboard}>
@@ -44,6 +45,16 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="rounded-[10px] flex items-center justify-center mx-[auto] p-2 absolute left-8 bottom-8 cursor-pointer">
+          <Image
+            alt={''}
+            src={ImgHeader}
+            className="mx-[auto]"
+          />
+        </div>
+        <div className="rounded-[10px] flex items-center justify-center mx-[auto] p-2 absolute right-4 top-4 cursor-pointer">
+          <UserInfo/>
+        </div>
       <Component {...pageProps} />
     </Web3OnboardProvider>
   )
