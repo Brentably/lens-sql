@@ -6,7 +6,7 @@ import userImg from '../statics/img/user.svg'
 import { useAppState, useConnectWallet } from '@web3-onboard/react'
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
-const popContent = (addr:string) => {
+const PopContent = (addr:string) => {
 
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
 
@@ -36,7 +36,7 @@ export default function UserInfo() {
 
     return (
         <>
-            <Popover placement="topRight" content={popContent(address)} trigger="click">
+            <Popover placement="topRight" content={PopContent(address)} trigger="click">
                 <div className="h-[50px] w-[50px] bg-[#fff] answer-shadow p-1 rounded-[10px] cursor-pointer flex items-center justify-center hover:opacity-70">
                     {/* <Image alt="" src={userImg} className='' /> */}
                     <Jazzicon diameter={40} seed={jsNumberForAddress(address)} />
