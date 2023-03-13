@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState, useImperativeHandle,forwardRef } from 'react'
 import Image from 'next/image'
 import Enter from './../../statics/img/Enter.png'
 import Loading from './../../statics/img/loading.gif'
@@ -25,13 +25,8 @@ import User from './lens/User'
 import Post from './lens/Post'
 import Publications from './lens/Publications'
 
-
-
-export default function DatabasePage2(props) {
+let DatabasePage2 = (props,ref) => {
   const [{ wallet }, ,] = useConnectWallet()
-
-
-
 
   const [showIcon, setShowIcon] = useState<any>([false, false, false])
 
@@ -47,7 +42,7 @@ export default function DatabasePage2(props) {
   // const controller = new AbortController();
   // const signal = controller.signal;
   const handleClear = () => {
-    for(let controller of controllers) controller.abort()
+    for (let controller of controllers) controller.abort()
     props.clearState()
   }
 
@@ -116,11 +111,18 @@ export default function DatabasePage2(props) {
     setSaving(false)
   }
 
+  useImperativeHandle(ref, () => ({
+    handleRun: () => {
+      handleRun();
+    }
+  }));
+
 
   return (
     <div>
       {/* search bar / prompt part */}
-      <div className='h-[220px] shadow rounded-[16px] p-4 pb-6'>
+
+      {/* <div className='h-[220px] shadow rounded-[16px] p-4 pb-6'>
         <textarea className='w-full h-[120px] border-none rounded-[10px] resize-none' placeholder='Please describe the data you want' value={promptText} onChange={(e) => setState(ps => ({ ...ps, promptText: e.target.value }))}></textarea>
         <div className='bg-[#F4F4F4] mr-[20px] ml-[auto] w-[50px] h-[50px] rounded-[50%] flex items-center justify-center shadow'>
           <Image
@@ -130,10 +132,10 @@ export default function DatabasePage2(props) {
             onClick={() => handleRun()}
           />
         </div>
+      </div> */}
 
-      </div>
       {!SQL && !isSqlLoading ? <>
-        <div className="my-5 text-[26px] font-[700]">Description examples</div>
+        {/* <div className="my-5 text-[26px] font-[700]">Description examples</div>
         {
           examples.slice(0, 4).map((t: any, i: number) => (
             <div key={i} className="shadow rounded-[16px] px-5 py-5 mb-5 cursor-pointer" onClick={() => {
@@ -141,12 +143,12 @@ export default function DatabasePage2(props) {
               handleRun(t.text) // setState is async so we have to pass it in manually
             }}>{t.text}</div>
           ))
-        }
+        } */}
       </> : <>
         {/* Magic is happening / SQL part */}
         <div className='mt-5'>
           <div className=' w-[fit-content] py-2 text-[26px]'>{SQL ? 'SQL' : 'Magic is happening…'}</div>
-          <div className='h-[260px] shadow py-2 px-3 whitespace-pre-line rounded-[16px]'>
+          <div className='h-[260px] shadow py-2 px-3 whitespace-pre-line rounded-[16px] flex items-center'>
             {
               isSqlLoading &&
               <Image
@@ -159,14 +161,14 @@ export default function DatabasePage2(props) {
                 onChange={(e) => setState(ps => ({ ...ps, SQL: e.target.value }))}>
                 {SQL}
               </textarea>
-            : null}
+              : null}
           </div>
         </div>
       </>}
 
       <div className='flex justify-end my-5'>
         {/* save: onclick should save in the DB fangren mentioned */}
-        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleSave} disabled={saving}>{saving? "Saving" : "Save"}</button>
+        <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={handleSave} disabled={saving}>{saving ? "Saving" : "Save"}</button>
         {/* <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer rounded-[10px] shadow mr-5'>Explain</button> */}
         {/* run: should rerun query to show table / chart again */}
         <button className='w-[100px] flex justify-center items-center h-[46px] rounded-[10px] cursor-pointer shadow mr-5' onClick={() => getResults(SQL)}>Run</button>
@@ -206,6 +208,7 @@ export default function DatabasePage2(props) {
               <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
                 <Image
                   src={UploadDefault}
+                  onClick={() => props.changePage('polygon')}
                   className='cursor-pointer h-[24px] w-[24px]'
                   alt=""
                 />
@@ -246,7 +249,6 @@ export default function DatabasePage2(props) {
         </div>
       }
 
-     
       {
         showNotConnectTip &&
         <div className='w-[100vw] h-[100vh] bg-[rgba(0,0,0,0.5)] fixed top-0 left-0'>
@@ -268,3 +270,5 @@ export default function DatabasePage2(props) {
     </div>
   )
 }
+
+export default forwardRef(DatabasePage2)
