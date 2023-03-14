@@ -116,8 +116,8 @@ let DatabasePage2 = (props, ref) => {
   }
 
   useImperativeHandle(ref, () => ({
-    handleRun: () => {
-      handleRun();
+    handleRun: (e) => {
+      handleRun(e);
     }
   }));
 
