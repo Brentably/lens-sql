@@ -25,7 +25,7 @@ const Line = (props) => {
             }
         }
     })
-    if(!xKey) return (<></>)
+
     if(xKey === 'timestamp'){
         let data = props.data.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
         data.forEach((t: any) => {
