@@ -343,7 +343,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto flex items-center gap-16 h-screen">
-      <div onClick={() => handleBiChat()}>test</div>
+      {/* <div onClick={() => handleBiChat()}>test</div> */}
       <div className='flex items-center fixed top-4 left-4 hover:opacity-70' onClick={() => setDrawerOpen(true)}>
         <div className='h-[50px] w-[50px] bg-[#fff] answer-shadow p-1 rounded-[10px] cursor-pointer flex items-center justify-center mr-[10px]'>
           <Image
@@ -409,7 +409,7 @@ export default function Home() {
                   />
                 </div>
               }
-              <div>{isSql ? sqlDescription : biDescription}</div>
+              <div onClick={() => handleBiChat()}>{isSql ? sqlDescription : biDescription}</div>
             </div>
             <div className="bg-gray2 rounded-[25px] py-[18px] px-[12px] question-shadow">
               <div className="flex items-center gap-3 flex-wrap mb-5">
