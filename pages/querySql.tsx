@@ -307,22 +307,22 @@ export default function Home() {
 
   const handleBiChat = async () => {
 
-    // let dataArray = [{ "user_name": "femboy", "count": 20634 }, { "user_name": "fortunetrees", "count": 15641 }, { "user_name": "billym2k", "count": 15436 }, { "user_name": "0xzelda", "count": 14602 }, { "user_name": "gotenks", "count": 9956 }]
-    // const res = await chatApi.post("/bi_chat", {
-    //   address: '',
-    //   conId: uuidv4(),
-    //   traceId: uuidv4(),
-    //   input: 'please tell me the trend of the data',
-    //   sqlReq: 'Show me the top 5 posters on lens',
-    //   data: JSON.stringify(dataArray)
-
-    // });
-    // console.log(res)
-    // if (!res) {
-    //   return
-    // }
-
+    let dataArray = [{ "user_name": "femboy", "count": 20634 }, { "user_name": "fortunetrees", "count": 15641 }, { "user_name": "billym2k", "count": 15436 }, { "user_name": "0xzelda", "count": 14602 }, { "user_name": "gotenks", "count": 9956 }]
     const res = await chatApi.post("/bi_chat", {
+      address: '',
+      conId: uuidv4(),
+      traceId: uuidv4(),
+      input: 'please tell me the trend of the data',
+      sqlReq: 'Show me the top 5 posters on lens',
+      data: JSON.stringify(dataArray)
+
+    });
+    console.log(res)
+    if (!res) {
+      return
+    }
+
+    const res1 = await chatApi.post("/bi_chat", {
       address: '',
       conId: uuidv4(),
       traceId: uuidv4(),
@@ -330,7 +330,7 @@ export default function Home() {
       sqlReq: promptText,
       data: JSON.stringify(results)
     });
-    console.log(res)
+    console.log(res1)
   }
 
   useEffect(() => {
