@@ -8,7 +8,7 @@
     "validResp": "SELECT handle, COUNT(*) AS post_count\nFROM lens_publication_post_view\nGROUP BY handle\nORDER BY post_count DESC\nLIMIT 10"
   },
   {
-    "text": "Stani posts about lending"
+    "text": "stani posts about lending"
   },
   {
     "text": "Give me the most recent comments by the user fortunetrees"
