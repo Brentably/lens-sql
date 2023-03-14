@@ -322,15 +322,15 @@ export default function Home() {
       return
     }
 
-    const res1 = await chatApi.post("/bi_chat", {
-      address: '',
-      conId: uuidv4(),
-      traceId: uuidv4(),
-      input: biPromptText,
-      sqlReq: promptText,
-      data: JSON.stringify(results)
-    });
-    console.log(res1)
+    // const res1 = await chatApi.post("/bi_chat", {
+    //   address: '',
+    //   conId: uuidv4(),
+    //   traceId: uuidv4(),
+    //   input: biPromptText,
+    //   sqlReq: promptText,
+    //   data: JSON.stringify(results)
+    // });
+    // console.log(res1)
   }
 
   useEffect(() => {
