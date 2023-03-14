@@ -69,6 +69,7 @@ let DatabasePage2 = (props, ref) => {
     console.log('SQL resp', response)
     const results: Array<any> = response?.results
     // setResults(results)
+
     setState(ps => ({ ...ps, results: results, isResultLoading: false }))
   }
 
@@ -241,40 +242,40 @@ let DatabasePage2 = (props, ref) => {
             </div>
 
             {
-              canShowPublications(results) &&
+              canShowPublications(results) && showChart !== 0 &&
               <div className='w-full flex gap-4'>
                 <div className='w-[75%] mr-2 p-5 rounded-[16px] shadow'>
-                  {
-                    showChart !== 0 &&
-                    <div className='h-[260px] mb-5 w-full'>
-                      {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
-                    </div>
-                  }
-                  <div className='h-[400px] w-full overflow-y-auto p-5'>
+                  <div className='h-[260px] mb-5 w-full'>
+                    {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
+                  </div>
+                  <div className='h-[260px] w-full overflow-y-auto p-5'>
                     <Publications data={results} />
                   </div>
                 </div>
-                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[260px]'></div>
+                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[580px]'></div>
               </div>
             }
 
             {
               showChart !== 0 && !canShowPublications(results) &&
-              <div className='h-[260px] mr-2 w-full shadow p-5 rounded-[16px] flex'>
-                <div className='h-full mb-5 w-full'>
-                  {
-                    showChart === 1 &&
-                    <>
-                      {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
-                    </>
-                  }
-                  {
-                    showChart === 2 &&
-                    <>
-                      {results?.length > 0 ? <Bar data={results} /> : results != null && "no results"}
-                    </>
-                  }
+              <div className='w-full flex gap-4'>
+                <div className='w-[75%] mr-2 p-5 rounded-[16px] shadow'>
+                  <div className='h-[260px] mb-5 w-full'>
+                    {
+                      showChart === 1 &&
+                      <>
+                        {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
+                      </>
+                    }
+                    {
+                      showChart === 2 &&
+                      <>
+                        {results?.length > 0 ? <Bar data={results} /> : results != null && "no results"}
+                      </>
+                    }
+                  </div>
                 </div>
+                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[320px]'></div>
               </div>
             }
           </div>

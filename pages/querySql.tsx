@@ -284,9 +284,9 @@ export default function Home() {
     }
   }
 
-  const examplesChange = () => {
+  const examplesChange = (text: any) => {
     ref?.current?.focus()
-    refPage.current?.handleRun()
+    refPage.current?.handleRun(text)
   }
 
   const handleRun = () => {
@@ -368,20 +368,31 @@ export default function Home() {
                   examples.slice(0, 4).map((t: any, i: number) => (
                     <div key={i} className="rounded-lg suggestion-shadow active:suggestion-active-shadow hover:-translate-y-[2px] transition-all py-[6px] px-[20px] text-left cursor-pointer" onClick={() => {
                       setState(pS => ({ ...pS, promptText: t.text })) // changes UI
-                      examplesChange() // setState is async so we have to pass it in manually
+                      examplesChange(t.text) // setState is async so we have to pass it in manually
                     }}>{t.text}</div>
                   ))
                 }
               </div>
-              <input
-                value={promptText}
-                onChange={(e) => setState(ps => ({ ...ps, promptText: e.target.value }))}
-                type="text"
-                className={`border-none px-3 bg-transparent w-full text-xl outline-none placeholder:text-[#a4a4a4]`}
-                placeholder="Something for me to write"
-                onKeyUp={(e) => e.key === 'Enter' && handleRun()}
-                ref={ref}
-              />
+              <div className='flex items-center'>
+                <input
+                  value={promptText}
+                  onChange={(e) => setState(ps => ({ ...ps, promptText: e.target.value }))}
+                  type="text"
+                  className={`border-none px-3 bg-transparent w-full text-xl outline-none placeholder:text-[#a4a4a4] w-[calc(100%-50px)]`}
+                  placeholder="Something for me to write"
+                  onKeyUp={(e) => e.key === 'Enter' && handleRun()}
+                  ref={ref}
+                />
+                <div className='bg-[#F4F4F4] mr-[20px] ml-[auto] w-[50px] h-[50px] rounded-[50%] flex items-center justify-center shadow'>
+                  <Image
+                    className="cursor-pointer"
+                    src={Enter}
+                    alt=""
+                    onClick={() => handleRun()}
+                  />
+                </div>
+              </div>
+
             </div>
           </>
         }
