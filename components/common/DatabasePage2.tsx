@@ -132,14 +132,17 @@ let DatabasePage2 = (props, ref) => {
             xKey = t
           }
         })
-        if(xKey){
+        if (xKey) {
           setShowChart(1)
-        }else{
+          props.showBtn(true)
+        } else {
           setShowChart(2)
+          props.showBtn(true)
         }
       }
-    }else{
+    } else {
       setShowChart(0)
+      props.showBtn(false)
     }
   }
 
@@ -203,67 +206,84 @@ let DatabasePage2 = (props, ref) => {
 
       <div className='mt-5'>
         <div className='w-[fit-content] py-2 text-[26px]'>Here is your Result</div>
-        <div className='shadow p-5 rounded-[16px] mb-5'>
-          <div className='flex'>
-            <div className='h-[260px] mr-2 w-[calc(100%-70px)]'>
-              {
-                showChart === 0 &&
-                <div className='h-full w-full mb-5 object-contain overflow-scroll'>
-                  {isResultLoading ? "Magic is happening..." : results?.length > 0 ? <Table data={results} /> : results != null && "no results"}
+        <div className='mb-5'>
+          <div className='w-full'>
+            <div className='h-[400px] w-full mr-2 w-[calc(100%-70px)] flex mb-10 shadow p-5 rounded-[16px] overflow-y-hidden'>
+              <div className='h-full w-full mb-5 object-contain overflow-auto'>
+                {isResultLoading ? "Magic is happening..." : results?.length > 0 ? <Table data={results} /> : results != null && "no results"}
+              </div>
+              <div className='ml-[auto]'>
+                <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
+                  <Image
+                    src={ChartHover}
+                    onClick={() => onchangeInsight()}
+                    className='cursor-pointer h-[24px] w-[24px]'
+                    alt=""
+                  />
                 </div>
-              }
-              {
-                showChart === 1 &&
-                <div className='h-full w-full mb-5'>
-                  {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
+                <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
+                  <Image
+                    src={downloadHover}
+                    className='cursor-pointer h-[24px] w-[24px]'
+                    alt=""
+                  />
+                </div>
+                <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
+                  <Image
+                    src={UploadDefault}
+                    onClick={() => props.changePage('polygon')}
+                    className='cursor-pointer h-[24px] w-[24px]'
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
 
+            {
+              canShowPublications(results) &&
+              <div className='w-full flex gap-4'>
+                <div className='w-[75%] mr-2 p-5 rounded-[16px] shadow'>
+                  {
+                    showChart !== 0 &&
+                    <div className='h-[260px] mb-5 w-full'>
+                      {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
+                    </div>
+                  }
+                  <div className='h-[400px] w-full overflow-y-auto p-5'>
+                    <Publications data={results} />
+                  </div>
                 </div>
-              }
-              {
-                showChart === 2 &&
-                <div className='h-full w-full mb-5'>
-                  {results?.length > 0 ? <Bar data={results} /> : results != null && "no results"}
+                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[260px]'></div>
+              </div>
+            }
+
+            {
+              showChart !== 0 && !canShowPublications(results) &&
+              <div className='h-[260px] mr-2 w-full shadow p-5 rounded-[16px] flex'>
+                <div className='h-full mb-5 w-full'>
+                  {
+                    showChart === 1 &&
+                    <>
+                      {results?.length > 0 ? <Line data={results} /> : results != null && "no results"}
+                    </>
+                  }
+                  {
+                    showChart === 2 &&
+                    <>
+                      {results?.length > 0 ? <Bar data={results} /> : results != null && "no results"}
+                    </>
+                  }
                 </div>
-              }
-            </div>
-            <div className='ml-[auto]'>
-              <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
-                <Image
-                  src={ChartHover}
-                  onClick={() => onchangeInsight()}
-                  className='cursor-pointer h-[24px] w-[24px]'
-                  alt=""
-                />
               </div>
-              <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
-                <Image
-                  src={downloadHover}
-                  className='cursor-pointer h-[24px] w-[24px]'
-                  alt=""
-                />
-              </div>
-              <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
-                <Image
-                  src={UploadDefault}
-                  onClick={() => props.changePage('polygon')}
-                  className='cursor-pointer h-[24px] w-[24px]'
-                  alt=""
-                />
-              </div>
-            </div>
+            }
           </div>
         </div>
 
-        <div className='w-full flex mb-5 '>
-          <div className='w-[calc(50%-10px)] mr-5 rounded-[16px]'>
-            {/* <User /> */}
+        {/* <div className='w-full flex mb-5 '>
+          <div className='w-[80%] mr-5 rounded-[16px]'>
             {canShowPublications(results) ? <Publications data={results} /> : null}
           </div>
-
-          {/* <div className='shadow h-[200px] w-[calc(50%-10px)] rounded-[10px] p-[20px]'>
-            description
-          </div> */}
-        </div>
+        </div> */}
       </div>
       {
         showSmartContractTip &&

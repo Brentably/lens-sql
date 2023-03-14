@@ -7,24 +7,26 @@ const Bar = (props: any) => {
     let series: any = [], xData: any = [], xKey = ''
     const keys = Object.keys(props.data[0])
     keys.map((t) => {
-        let yData: any = {
-            name: t,
-            data: [],
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-                color: 'rgba(180, 180, 180, 0.2)'
+        if (t.includes('count') || t.includes('num') || t.includes('average')) {
+            let yData: any = {
+                name: t,
+                data: [],
+                type: 'bar',
+                showBackground: false,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
             }
-        }
-        props.data.forEach((tem: any) => {
-            if (t.includes('count') || t.includes('num') || t.includes('average')) {
+            props.data.forEach((tem: any) => {
                 yData.data.push(tem[t])
-            } else {
+    
+            })
+            series.push(yData)
+        }else{
+             props.data.forEach((tem: any) => {
                 xData.push(tem[t])
-            }
-
-        })
-        series.push(yData)
+             })
+        }
     })
 
     useEffect(() => {
@@ -45,6 +47,9 @@ const Bar = (props: any) => {
             tooltip: {
                 show: true,
                 trigger: 'axis',
+            },
+            legend: {
+                orient: 'horizontal'
             },
             series: series
         };
