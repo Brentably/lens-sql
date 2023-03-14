@@ -36,6 +36,8 @@ let DatabasePage2 = (props, ref) => {
 
   const [saving, setSaving] = useState<boolean>(false)
 
+  const [resultError,setResultError] = useState<any>('')
+
   const [showChart, setShowChart] = useState(0)
 
   const [{ promptText, isSqlLoading, isResultLoading, SQL, results }, setState] = props.store
@@ -55,22 +57,28 @@ let DatabasePage2 = (props, ref) => {
     //   return
     // }
     if (!SQL) return // in case someone hits run but there's nothing there
+    setResultError('')
     setState(ps => ({ ...ps, results: [], isResultLoading: true }))
     const controller = new AbortController()
     setControllers(pc => [...pc, controller])
     // handle SQL
-    let resp = await fetch('/api/lensRead', {
-      method: "POST",
-      body: JSON.stringify({ SQL }),
-      signal: controller.signal
-    })
-    let response = await resp.json()
-    if (resp.status != 200) return console.error('error', response)
-    console.log('SQL resp', response)
-    const results: Array<any> = response?.results
-    // setResults(results)
-
-    setState(ps => ({ ...ps, results: results, isResultLoading: false }))
+    try{
+      let resp = await fetch('/api/lensRead', {
+        method: "POST",
+        body: JSON.stringify({ SQL }),
+        signal: controller.signal
+      })
+      let response = await resp.json()
+      if (resp.status != 200) return console.error('error', response)
+      console.log('SQL resp', response)
+      const results: Array<any> = response?.results
+      // setResults(results)
+  
+      setState(ps => ({ ...ps, results: results, isResultLoading: false }))
+    } catch (error) {
+      setResultError('It seems something is wrong, please try again.')
+      setState(ps => ({ ...ps, results: [], isResultLoading: false }))
+    }
   }
 
   const handleRun = async (prompt = promptText) => {
@@ -151,6 +159,7 @@ let DatabasePage2 = (props, ref) => {
 
   return (
     <div>
+
       {/* search bar / prompt part */}
 
       {/* <div className='h-[220px] shadow rounded-[16px] p-4 pb-6'>
@@ -212,7 +221,7 @@ let DatabasePage2 = (props, ref) => {
           <div className='w-full'>
             <div className='h-[400px] w-full mr-2 w-[calc(100%-70px)] flex mb-10 shadow p-5 rounded-[16px] overflow-y-hidden'>
               <div className='h-full w-full mb-5 object-contain overflow-auto'>
-                {isResultLoading ? "Magic is happening..." : results?.length > 0 ? <Table data={results} /> : results != null && "no results"}
+                {isResultLoading ? "Magic is happening..." : resultError ? resultError : results?.length > 0 ? <Table data={results} /> : results != null && "no results"}
               </div>
               <div className='ml-[auto]'>
                 <div className='shadow rounded-[50%] flex justify-center items-center h-[40px] w-[40px]'>
