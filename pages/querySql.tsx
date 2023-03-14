@@ -399,7 +399,7 @@ export default function Home() {
           <>
             <div className="text-3xl mb-10 font-[600] flex items-center">
               {
-                true &&
+                showBtn &&
                 <div className='shrink-0'>
                   <Image
                     onClick={() => setIsSql(!isSql)}
