@@ -25,6 +25,7 @@ import User from './lens/User'
 import Post from './lens/Post'
 import Publications from './lens/Publications'
 
+
 let DatabasePage2 = (props, ref) => {
   const [{ wallet }, ,] = useConnectWallet()
 
