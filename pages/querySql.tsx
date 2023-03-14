@@ -366,7 +366,7 @@ export default function Home() {
             <div className="bg-gray2 rounded-[25px] py-[18px] px-[12px] question-shadow">
               <div className="flex items-center gap-3 flex-wrap mb-5">
                 {
-                  examples.slice(0, 4).map((t: any, i: number) => (
+                  examples.slice(0, isSql ? 4 : 2).map((t: any, i: number) => (
                     <div key={i} className="rounded-lg suggestion-shadow active:suggestion-active-shadow hover:-translate-y-[2px] transition-all py-[6px] px-[20px] text-left cursor-pointer" onClick={() => {
                       setState(pS => ({ ...pS, promptText: t.text })) // changes UI
                       examplesChange(t.text) // setState is async so we have to pass it in manually
