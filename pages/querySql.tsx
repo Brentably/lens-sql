@@ -273,6 +273,8 @@ export default function Home() {
 
   const [showPage, setShowPage] = useState<boolean>(false)
 
+  const [showBtn, setShowBtn] = useState<boolean>(false)
+
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
 
   const treeChange = (items: any) => {
@@ -284,6 +286,7 @@ export default function Home() {
 
   const examplesChange = () => {
     ref?.current?.focus()
+    refPage.current?.handleRun()
   }
 
   const handleRun = () => {
@@ -346,14 +349,17 @@ export default function Home() {
           page === 'main' &&
           <>
             <div className="text-3xl mb-10 font-[600] flex items-center">
-              <div className='shrink-0'>
-                <Image
-                  onClick={() => setIsSql(!isSql)}
-                  className='cursor-pointer hover:opacity-70 h-[60px] w-[fit-content]'
-                  src={isSql ? ImgSQLSwitch : ImgBI}
-                  alt=""
-                />
-              </div>
+              {
+                showBtn &&
+                <div className='shrink-0'>
+                  <Image
+                    onClick={() => setIsSql(!isSql)}
+                    className='cursor-pointer hover:opacity-70 h-[60px] w-[fit-content]'
+                    src={isSql ? ImgSQLSwitch : ImgBI}
+                    alt=""
+                  />
+                </div>
+              }
               <div>{isSql ? sqlDescription : biDescription}</div>
             </div>
             <div className="bg-gray2 rounded-[25px] py-[18px] px-[12px] question-shadow">
@@ -394,8 +400,8 @@ export default function Home() {
         }
 
       </div>
-      <div className="w-1/2 h-5/6 relative overflow-y-auto px-[24px] py-[24px]">
-        <DatabasePage2 store={store} getFiles={getFiles} clearState={clearState} ref={refPage} changePage={(e) => setPage(e)}/>
+      <div className="w-1/2 h-5/6 relative overflow-y-auto px-[24px] py-[24px] noscroll">
+        <DatabasePage2 store={store} getFiles={getFiles} clearState={clearState} ref={refPage} changePage={(e) => setPage(e)} showBtn={(e) => setShowBtn(e)} />
       </div>
     </div>
 
