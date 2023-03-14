@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/querySql',
+        destination: '/connectWallet',
         permanent: true,
       }
     ]
