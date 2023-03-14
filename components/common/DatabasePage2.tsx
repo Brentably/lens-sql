@@ -37,11 +37,11 @@ let DatabasePage2 = (props, ref) => {
 
   const [saving, setSaving] = useState<boolean>(false)
 
-  const [resultError,setResultError] = useState<any>('')
+  const [resultError, setResultError] = useState<any>('')
 
   const [showChart, setShowChart] = useState(0)
 
-  const [{ promptText, isSqlLoading, isResultLoading, SQL, results }, setState] = props.store
+  const [{ promptText, isSqlLoading, isResultLoading, SQL, results, insightsDes, insightsLoading }, setState] = props.store
 
   const [controllers, setControllers] = useState<AbortController[] | []>([])
   // const controller = new AbortController();
@@ -63,7 +63,7 @@ let DatabasePage2 = (props, ref) => {
     const controller = new AbortController()
     setControllers(pc => [...pc, controller])
     // handle SQL
-    try{
+    try {
       let resp = await fetch('/api/lensRead', {
         method: "POST",
         body: JSON.stringify({ SQL }),
@@ -74,7 +74,7 @@ let DatabasePage2 = (props, ref) => {
       console.log('SQL resp', response)
       const results: Array<any> = response?.results
       // setResults(results)
-  
+
       setState(ps => ({ ...ps, results: results, isResultLoading: false }))
     } catch (error) {
       setResultError('It seems something is wrong, please try again.')
@@ -262,7 +262,9 @@ let DatabasePage2 = (props, ref) => {
                     <Publications data={results} />
                   </div>
                 </div>
-                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[580px]'></div>
+                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[580px]'>
+                  {insightsLoading ? 'Working on your question...' : insightsDes}
+                </div>
               </div>
             }
 
@@ -285,7 +287,9 @@ let DatabasePage2 = (props, ref) => {
                     }
                   </div>
                 </div>
-                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[320px]'></div>
+                <div className='w-[25%] ml-auto rounded-[16px] shadow h-[320px]'>
+                  {insightsLoading ? 'Working on your question...' : insightsDes}
+                </div>
               </div>
             }
           </div>

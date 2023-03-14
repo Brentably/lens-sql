@@ -212,7 +212,9 @@ export type databasePageState = {
   isResultLoading: boolean
   SQL: string
   results: any[] | null,
-  biPromptText:string
+  biPromptText:string,
+  insightsDes:string,
+  insightsLoading: boolean
 }
 
 export type databasePageStore = [databasePageState, Dispatch<SetStateAction<databasePageState>>]
@@ -225,6 +227,8 @@ const defaultState: databasePageState = {
   SQL: '',
   results: null,
   biPromptText: '',
+  insightsDes:'',
+  insightsLoading:false
 }
 
 
@@ -307,29 +311,36 @@ export default function Home() {
 
   const handleBiChat = async () => {
 
-    let dataArray = [{ "user_name": "femboy", "count": 20634 }, { "user_name": "fortunetrees", "count": 15641 }, { "user_name": "billym2k", "count": 15436 }, { "user_name": "0xzelda", "count": 14602 }, { "user_name": "gotenks", "count": 9956 }]
-    const res = await chatApi.post("/bi_chat", {
-      address: '',
-      conId: uuidv4(),
-      traceId: uuidv4(),
-      input: 'please tell me the trend of the data',
-      sqlReq: 'Show me the top 5 posters on lens',
-      data: JSON.stringify(dataArray)
-
-    });
-    console.log(res)
-    if (!res) {
-      return
-    }
-
-    // const res1 = await chatApi.post("/bi_chat", {
+    // let dataArray = [{ "user_name": "femboy", "count": 20634 }, { "user_name": "fortunetrees", "count": 15641 }, { "user_name": "billym2k", "count": 15436 }, { "user_name": "0xzelda", "count": 14602 }, { "user_name": "gotenks", "count": 9956 }]
+    // const res = await chatApi.post("/bi_chat", {
     //   address: '',
     //   conId: uuidv4(),
     //   traceId: uuidv4(),
-    //   input: biPromptText,
-    //   sqlReq: promptText,
-    //   data: JSON.stringify(results)
+    //   input: 'please tell me the trend of the data',
+    //   sqlReq: 'Show me the top 5 posters on lens',
+    //   data: JSON.stringify(dataArray)
+
     // });
+    // console.log(res)
+    // if (!res) {
+    //   return
+    // }
+
+    setState(ps => ({ ...ps, insightsDes: '',insightsLoading:true }))
+
+    const res1:any = await chatApi.post("/bi_chat", {
+      address: '',
+      conId: uuidv4(),
+      traceId: uuidv4(),
+      input: biPromptText,
+      sqlReq: promptText,
+      data: JSON.stringify(results)
+    });
+    setState(ps => ({ ...ps, insightsLoading:false }))
+    if(res1 && res1.code === 200){
+      setState(ps => ({ ...ps, insightsDes: res1.text}))
+    }
+
     // console.log(res1)
   }
 
