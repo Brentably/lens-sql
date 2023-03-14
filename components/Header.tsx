@@ -22,7 +22,7 @@ const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
         <Link href='/query' 
           className={router.pathname == '/query' ? 'bg-red-600 text-white flex items-center my-3 p-5' 
           : 'bg-red-600 text-gray-600 flex items-center my-3 p-5'}>
-            Query
+            Querytt
         </Link>
       </div>
     </div>
