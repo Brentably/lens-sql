@@ -309,7 +309,7 @@ export default function Home() {
     refPage.current?.handleRun()
   }
 
-  const handleBiChat = async () => {
+  const handleBiChat = async (biPrompt= biPromptText) => {
 
     // let dataArray = [{ "user_name": "femboy", "count": 20634 }, { "user_name": "fortunetrees", "count": 15641 }, { "user_name": "billym2k", "count": 15436 }, { "user_name": "0xzelda", "count": 14602 }, { "user_name": "gotenks", "count": 9956 }]
     // const res = await chatApi.post("/bi_chat", {
@@ -332,7 +332,7 @@ export default function Home() {
       address: '',
       conId: uuidv4(),
       traceId: uuidv4(),
-      input: biPromptText,
+      input: biPrompt,
       sqlReq: promptText,
       data: JSON.stringify(results)
     });
@@ -427,8 +427,13 @@ export default function Home() {
                 {
                   defaultExam.slice(0, isSql ? 4 : 2).map((t: any, i: number) => (
                     <div key={i} className="rounded-lg suggestion-shadow active:suggestion-active-shadow hover:-translate-y-[2px] transition-all py-[6px] px-[20px] text-left cursor-pointer" onClick={() => {
+                      if(isSql) {
                       setState(pS => ({ ...pS, promptText: t.text })) // changes UI
                       examplesChange(t.text) // setState is async so we have to pass it in manually
+                      } else {
+                        setState(pS => ({ ...pS, biPromptText: t.text })) 
+                        handleBiChat(t.text)
+                      }
                     }}>{t.text}</div>
                   ))
                 }
