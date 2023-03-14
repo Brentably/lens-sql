@@ -74,6 +74,7 @@ let DatabasePage2 = (props, ref) => {
 
   const handleRun = async (prompt = promptText) => {
     console.log(`running!`, prompt, isSqlLoading)
+    setShowChart(0)
     if (!prompt || isSqlLoading) return
     setState(pS => ({ ...pS, SQL: '', isSqlLoading: true }))
     console.log('fetching with prompt:', prompt)
