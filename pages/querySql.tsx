@@ -286,6 +286,7 @@ export default function Home() {
 
   const examplesChange = (text: any) => {
     ref?.current?.focus()
+    console.log(text)
     refPage.current?.handleRun(text)
   }
 
