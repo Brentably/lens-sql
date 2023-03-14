@@ -47,7 +47,7 @@ const Line = (props) => {
                 top: 30,
                 bottom: 30,
                 left: 50,
-                right: 0,
+                right: 20,
             },
             tooltip: {
                 show: true,
@@ -55,6 +55,9 @@ const Line = (props) => {
             },
             yAxis: {
                 type: 'value'
+            },
+            legend: {
+                orient: 'horizontal'
             },
             series: series
         };
