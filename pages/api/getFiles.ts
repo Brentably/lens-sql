@@ -10,12 +10,13 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   
+  const [host, user, password, database, port] = process.env.NEXT_SERVER_LENS_FULL ? process.env.NEXT_SERVER_LENS_FULL?.split('/') : [undefined, undefined, undefined, undefined, undefined]
   var connection = mysql.createConnection({
-    host     : process.env.NEXT_SERVER_LENS_HOST,
-    user     : process.env.NEXT_SERVER_LENS_USER,
-    password : process.env.NEXT_SERVER_LENS_PASSWORD,
-    database : 'lens',
-    port: 4000,
+    host     : host,
+    user     : user,
+    password : password,
+    database : database,
+    port: Number(port)
   });
   connection.connect();
   console.log(req.body)
