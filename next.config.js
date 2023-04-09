@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/connectWallet',
+        destination: '/home',
         permanent: true,
       }
     ]
