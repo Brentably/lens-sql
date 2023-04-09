@@ -1,8 +1,7 @@
 import axios from "axios";
-import { baseURL } from "./config";
 
 const api = axios.create({
-  baseURL,
+  baseURL: process.env.NEXT_SERVER_BASE_URL_AXIOS,
 });
 
 api.interceptors.response.use((res) => {
